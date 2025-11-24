@@ -1,4 +1,17 @@
-package com.smartshop.dto;
+    package com.smartshop.dto;
 
-public class ProductDto {
-}
+    import lombok.AllArgsConstructor;
+    import lombok.Builder;
+    import lombok.Data;
+    import lombok.NoArgsConstructor;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class ProductDto {
+        private Long id;
+        private String nom;
+        private Double prixUnitaire;
+        private Integer stockDisponible;
+    }
