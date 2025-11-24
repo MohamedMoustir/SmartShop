@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: smartshop-backend
+
+  profiles:
+    active: qa
+
+logging:
+  level:
+    root: INFO
+    com.livraison.demo: DEBUG
+
