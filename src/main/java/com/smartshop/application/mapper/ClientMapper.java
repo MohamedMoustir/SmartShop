@@ -3,29 +3,27 @@ package com.smartshop.application.mapper;
 import com.smartshop.presontation.dto.ClientDTO;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
+import com.smartshop.presontation.dto.Request.ClientCreateRequest;
+import com.smartshop.presontation.dto.Response.ClientResponse;
 
 public class ClientMapper {
 
 
-    public static ClientDTO toDto(Client client){
+    public static Client toEntity(ClientCreateRequest client){
         if(client == null ) return null;
-        return ClientDTO.builder()
-                .id(client.getId())
+        return Client.builder()
                 .email(client.getEmail())
                 .nom(client.getNom())
-                .role(client.getRole() != null ? client.getRole().name():null)
-                .fidelityLevel(client.getFidelityLevel())
-                .totalOrders(client.getTotalOrders())
-                .totalSpent(client.getTotalSpent())
+                .role(UserRole.CLIENT)
                 .build();
     }
 
-    public static Client toEntity(ClientDTO dto){
+    public static ClientResponse toResponse(Client dto){
         if(dto == null)return null;
-        return Client.builder()
+        return ClientResponse.builder()
                 .id(dto.getId())
                 .email(dto.getEmail())
-                .role(dto.getRole() != null ? UserRole.valueOf(dto.getRole()):null)
+                .role(String.valueOf(dto.getRole()))
                 .nom(dto.getNom())
                 .totalOrders(dto.getTotalOrders())
                 .totalSpent(dto.getTotalSpent())
