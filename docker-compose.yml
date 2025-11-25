@@ -1,7 +1,7 @@
 version: '3.8'
 
-services:
 
+services:
   smartshop_db:
     image: mysql:8.0
     container_name: smartshop_mysql
@@ -12,7 +12,7 @@ services:
       MYSQL_USER: smartshop
       MYSQL_PASSWORD: smartshop123
     ports:
-      - "3308:3306"
+      - "3308:3306" # Localhost:3308 -> Container:3306
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -22,24 +22,24 @@ services:
       retries: 5
       start_period: 30s
 
-  app:
-    build: .
-    container_name: smartshop_app
-    restart: always
-    depends_on:
-      smartshop_db:
-        condition: service_healthy
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./src:/app/src
-      - ./pom.xml:/app/pom.xml
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://smartshop_db:3306/smartshopdb?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: smartshop
-      SPRING_DATASOURCE_PASSWORD: smartshop123
-      SPRING_PROFILES_ACTIVE: qa
-
-
+#  app:
+#    build: .
+#    container_name: smartshop_app
+#    restart: always
+#    depends_on:
+#      smartshop_db:
+#        condition: service_healthy
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./src:/app/src
+#      - ./pom.xml:/app/pom.xml
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://smartshop_db:3306/smartshopdb?useSSL=false&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: smartshop
+#      SPRING_DATASOURCE_PASSWORD: smartshop123
+#      SPRING_PROFILES_ACTIVE: qa
+#
+#
 volumes:
   db_data:
