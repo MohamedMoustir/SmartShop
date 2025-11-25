@@ -4,6 +4,7 @@ import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Admin;
 import com.smartshop.infrastructuer.Repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -20,10 +21,12 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
     if(adminRepository.count() == 0){
-       Admin admin = Admin.builder()
+        String salt = BCrypt.gensalt();
+        String hashedPassword = BCrypt.hashpw("Admin1234", salt);
+        Admin admin = Admin.builder()
                .nom("Admin")
                 .email("admin@smartshop.com")
-                .password("admin123")
+                .password(hashedPassword)
                 .role(UserRole.ADMIN)
                 .build();
         adminRepository.save(admin);
