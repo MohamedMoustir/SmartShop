@@ -15,7 +15,6 @@ services:
       - "3308:3306"
     volumes:
       - db_data:/var/lib/mysql
-
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -32,11 +31,15 @@ services:
         condition: service_healthy
     ports:
       - "8080:8080"
+    volumes:
+      - ./src:/app/src
+      - ./pom.xml:/app/pom.xml
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://smartshop_db:3306/smartshopdb?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: smartshop
       SPRING_DATASOURCE_PASSWORD: smartshop123
       SPRING_PROFILES_ACTIVE: qa
+
 
 volumes:
   db_data:

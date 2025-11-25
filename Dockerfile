@@ -1,17 +1,22 @@
-FROM eclipse-temurin:17-jdk-focal AS builder
+
+FROM maven:3.9.3-eclipse-temurin-17 AS builder
 
 WORKDIR /app
 
+
 COPY pom.xml .
+RUN mvn dependency:go-offline
 
 
-COPY target/smartshop-backend-0.0.1-SNAPSHOT.jar app.jar
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-focal
 
-WORKDIR /opt/app
+FROM eclipse-temurin:17-jre-focal AS runtime 
 
-COPY --from=builder /app/app.jar .
+WORKDIR /app
+
+COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
 

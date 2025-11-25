@@ -1,0 +1,19 @@
+package com.smartshop.presontation.dto;
+
+
+import com.smartshop.domain.enums.UserRole;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO {
+    private Long id;
+    private String email;
+    private String nom;
+    private UserRole role;
+}
