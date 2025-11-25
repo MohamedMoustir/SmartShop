@@ -1,9 +1,9 @@
-package com.smartshop.mapper;
+package com.smartshop.application.mapper;
 
-import com.smartshop.dto.OrderItemDTO;
-import com.smartshop.model.Commande;
-import com.smartshop.model.OrderItem;
-import com.smartshop.model.Product;
+import com.smartshop.presontation.dto.OrderItemDTO;
+import com.smartshop.domain.model.Commande;
+import com.smartshop.domain.model.OrderItem;
+import com.smartshop.domain.model.Product;
 
 public class OrderItemMapper {
 

@@ -1,4 +1,4 @@
-package com.smartshop.controller;
+package com.smartshop.presontation.controller;
 
 public class ClientController {
 }

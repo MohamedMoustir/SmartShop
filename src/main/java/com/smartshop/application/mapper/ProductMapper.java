@@ -1,7 +1,7 @@
-package com.smartshop.mapper;
+package com.smartshop.application.mapper;
 
-import com.smartshop.dto.ProductDto;
-import com.smartshop.model.Product;
+import com.smartshop.presontation.dto.ProductDto;
+import com.smartshop.domain.model.Product;
 
 public class ProductMapper {
 

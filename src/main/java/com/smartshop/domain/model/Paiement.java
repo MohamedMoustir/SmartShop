@@ -1,7 +1,7 @@
-package com.smartshop.model;
+package com.smartshop.domain.model;
 
-import com.smartshop.enums.PaymentStatus;
-import com.smartshop.enums.TypePaiement;
+import com.smartshop.domain.enums.PaymentStatus;
+import com.smartshop.domain.enums.TypePaiement;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

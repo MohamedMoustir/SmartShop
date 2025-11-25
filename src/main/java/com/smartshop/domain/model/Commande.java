@@ -1,6 +1,6 @@
-    package com.smartshop.model;
+    package com.smartshop.domain.model;
 
-    import com.smartshop.enums.OrderStatus;
+    import com.smartshop.domain.enums.OrderStatus;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.smartshop.dto;
+package com.smartshop.presontation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.smartshop.controller;
+package com.smartshop.presontation.controller;
 
-import com.smartshop.dto.LoginDTO;
+import com.smartshop.presontation.dto.LoginDTO;
 import com.smartshop.domain.model.User;
 import com.smartshop.application.service.AuthServise;
 import jakarta.servlet.http.HttpSession;
@@ -55,4 +55,6 @@ public class AuthController {
                 "role", session.getAttribute(USER_ROLE_KEY)
         ));
     }
+
+
 }

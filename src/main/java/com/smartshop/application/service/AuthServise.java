@@ -1,8 +1,8 @@
-package com.smartshop.service;
+package com.smartshop.application.service;
 
-import com.smartshop.dto.LoginDTO;
-import com.smartshop.model.User;
-import com.smartshop.repository.UserRepository;
+import com.smartshop.domain.Excption.InvalidCredentialsException;
+import com.smartshop.domain.model.User;
+import com.smartshop.infrastructuer.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,10 +15,10 @@ public class AuthServise {
 
     public User authenticate(String email , String password){
       User user = userRepository.findByEmail(email)
-              .orElseThrow(()->new RuntimeException("email d'utilisateur ou mot de passe incorrect."));
+              .orElseThrow(()->new InvalidCredentialsException("email d'utilisateur ou mot de passe incorrect."));
 
        if(!user.getPassword().equals(password)){
-           throw new RuntimeException("email d'utilisateur ou mot de passe incorrect.");
+           throw new InvalidCredentialsException("email d'utilisateur ou mot de passe incorrect.");
        }
         return user;
     }

@@ -1,8 +1,8 @@
-    package com.smartshop.mapper;
+    package com.smartshop.application.mapper;
 
-    import com.smartshop.dto.UserDTO;
-    import com.smartshop.model.Client;
-    import com.smartshop.model.User;
+    import com.smartshop.presontation.dto.UserDTO;
+    import com.smartshop.domain.model.Client;
+    import com.smartshop.domain.model.User;
 
     public class UserMapper {
 

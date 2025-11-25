@@ -1,4 +1,4 @@
-package com.smartshop.model;
+package com.smartshop.domain.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.smartshop.dto;
+package com.smartshop.presontation.dto;
 
 import com.smartshop.domain.enums.CustomerTier;
 import lombok.AllArgsConstructor;

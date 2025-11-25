@@ -1,9 +1,9 @@
-package com.smartshop.mapper;
+package com.smartshop.application.mapper;
 
 
-import com.smartshop.dto.CommandeDTO;
-import com.smartshop.model.Client;
-import com.smartshop.model.Commande;
+import com.smartshop.presontation.dto.CommandeDTO;
+import com.smartshop.domain.model.Client;
+import com.smartshop.domain.model.Commande;
 
 import java.util.stream.Collectors;
 

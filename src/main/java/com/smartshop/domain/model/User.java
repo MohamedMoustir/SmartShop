@@ -1,6 +1,6 @@
-package com.smartshop.model;
+package com.smartshop.domain.model;
 
-import com.smartshop.enums.UserRole;
+import com.smartshop.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

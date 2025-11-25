@@ -1,8 +1,8 @@
-package com.smartshop.mapper;
+package com.smartshop.application.mapper;
 
-import com.smartshop.dto.PaiementDTO;
-import com.smartshop.model.Commande;
-import com.smartshop.model.Paiement;
+import com.smartshop.presontation.dto.PaiementDTO;
+import com.smartshop.domain.model.Commande;
+import com.smartshop.domain.model.Paiement;
 
 public class PaiementMapper {
 

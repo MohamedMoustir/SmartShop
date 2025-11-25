@@ -2,7 +2,7 @@ package com.smartshop.presontation.config;
 
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Admin;
-import com.smartshop.repository.AdminRepository;
+import com.smartshop.infrastructuer.Repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

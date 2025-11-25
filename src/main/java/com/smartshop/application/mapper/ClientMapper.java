@@ -1,8 +1,8 @@
-package com.smartshop.mapper;
+package com.smartshop.application.mapper;
 
-import com.smartshop.dto.ClientDTO;
-import com.smartshop.enums.UserRole;
-import com.smartshop.model.Client;
+import com.smartshop.presontation.dto.ClientDTO;
+import com.smartshop.domain.enums.UserRole;
+import com.smartshop.domain.model.Client;
 
 public class ClientMapper {
 
