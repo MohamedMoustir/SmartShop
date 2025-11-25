@@ -1,24 +1,17 @@
-package com.smartshop.presontation.dto;
+package com.smartshop.presontation.dto.Response;
 
 import com.smartshop.domain.enums.CustomerTier;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ClientDTO {
-
+public class ClientResponse {
     private Long id;
     private String nom;
-    private String role;
     private String email;
-    private String password;
+    private String role;
     private CustomerTier fidelityLevel;
     private Double totalSpent;
     private Integer totalOrders;
-
 }
