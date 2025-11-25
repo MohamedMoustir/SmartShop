@@ -22,11 +22,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         String userRle = session.getAttribute(USER_ROLE_KEY).toString();
         String requestPath = request.getRequestURI();
-        if(requestPath.startsWith("/api/clients") || requestPath.startsWith("/api/products")){
+        if(requestPath.startsWith("/api/client") || requestPath.startsWith("/api/products")){
             if("CLIENT".equals(userRle) && !request.getMethod().equalsIgnoreCase("GET")){
                 throw new ForbiddenException("Accès refusé. Seul l'ADMIN peut créer, modifier ou supprimer ces ressources.");
             }
-            if("CLIENT".equals(userRle) && requestPath.startsWith("/api/clients")){
+            if("CLIENT".equals(userRle) && requestPath.startsWith("/api/client")){
                 throw new ForbiddenException("Accès refusé. Un CLIENT ne peut pas voir la liste des autres clients.");           }
 
         }

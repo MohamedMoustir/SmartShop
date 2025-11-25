@@ -3,13 +3,13 @@ package com.smartshop.application.mapper;
 import com.smartshop.presontation.dto.ClientDTO;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
-import com.smartshop.presontation.dto.Request.ClientCreateRequest;
+import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
 
 public class ClientMapper {
 
 
-    public static Client toEntity(ClientCreateRequest client){
+    public static Client toEntity(ClientRequest client){
         if(client == null ) return null;
         return Client.builder()
                 .email(client.getEmail())
