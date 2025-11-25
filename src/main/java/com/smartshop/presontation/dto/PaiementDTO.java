@@ -1,7 +1,7 @@
 package com.smartshop.dto;
 
-import com.smartshop.enums.PaymentStatus;
-import com.smartshop.enums.TypePaiement;
+import com.smartshop.domain.enums.PaymentStatus;
+import com.smartshop.domain.enums.TypePaiement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

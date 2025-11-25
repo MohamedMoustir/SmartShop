@@ -1,9 +1,9 @@
 package com.smartshop.repository;
 
-import com.smartshop.model.Commande;
+import com.smartshop.domain.model.Paiement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommandeRepository extends JpaRepository<Commande,Integer> {
+public interface PaiementRepository extends JpaRepository<Paiement,Long> {
 }

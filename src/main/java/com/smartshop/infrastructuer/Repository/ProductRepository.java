@@ -1,9 +1,9 @@
 package com.smartshop.repository;
 
-import com.smartshop.model.Client;
+import com.smartshop.domain.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client,Integer> {
+public interface ProductRepository extends JpaRepository<Product,Long> {
 }

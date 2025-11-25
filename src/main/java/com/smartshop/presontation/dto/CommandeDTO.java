@@ -1,6 +1,6 @@
 package com.smartshop.dto;
 
-import com.smartshop.enums.OrderStatus;
+import com.smartshop.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

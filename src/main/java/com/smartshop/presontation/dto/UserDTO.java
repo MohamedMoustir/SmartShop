@@ -1,6 +1,7 @@
 package com.smartshop.dto;
 
-import com.smartshop.enums.CustomerTier;
+
+import com.smartshop.domain.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientDTO {
-
+public class UserDTO {
     private Long id;
-    private String nom;
-    private String role;
     private String email;
-    private CustomerTier fidelityLevel;
-    private Double totalSpent;
-    private Integer totalOrders;
-
+    private String nom;
+    private UserRole role;
 }
