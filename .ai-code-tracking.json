@@ -6545,12 +6545,320 @@
       "aiTool": "AI Assistant",
       "detectionMethod": "REALTIME_SPEED_ANALYSIS",
       "lineCount": 1
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/controller/ClientController.java",
+      "timestamp": 1764145363522,
+      "startOffset": 2718,
+      "endOffset": 3037,
+      "codeContent": "public double calculateDiscount(Customer customer, double orderSubTotal) {\n        // TODO 1: شووف النيفو ديال الكليان (customer.getLevel())\n        // TODO 2: دير Conditions على حساب النيفو والمبلغ (orderSubTotal)\n        // TODO 3: رجع قيمة التخفيض (Return discount amount)\n        \n        return 0.0; // مؤقتا\n    }",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 7
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/controller/ClientController.java",
+      "timestamp": 1764145893744,
+      "startOffset": 3083,
+      "endOffset": 3159,
+      "codeContent": " if(orderSubTotal \u003e\u003d500) return orderSubTotal * 0.05;\n                break;",
+      "aiProbability": 70,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 2
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/controller/ClientController.java",
+      "timestamp": 1764146000859,
+      "startOffset": 2710,
+      "endOffset": 3389,
+      "codeContent": "public double calculateDiscount(Client client, double orderSubTotal) {\n\n        if(client \u003d\u003d null || client.getFidelityLevel()\u003d\u003dnull){\n            return 0.0;\n        }\n\n        switch (client.getFidelityLevel()){\n            case SILVER:\n                if(orderSubTotal \u003e\u003d500) return orderSubTotal * 0.05;\n                break;\n\n            case GOLD :\n                if(orderSubTotal \u003e\u003d800) return orderSubTotal * 0.10;\n                break;\n\n            case PLATINUM :\n                if(orderSubTotal \u003e\u003d1200) return orderSubTotal * 0.15;\n                break;\n            case BASIC:\n            default:\n                return 0.0;\n        }\n\n        return 0.0;\n    }",
+      "aiProbability": 70,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 25
+    },
+    {
+      "filePath": "/ClientController.java",
+      "timestamp": 1764146371088,
+      "startOffset": 2836,
+      "endOffset": 3429,
+      "codeContent": " \u003d\u003d null){\n            return 0.0;\n        }\n\n        switch (client.getFidelityLevel()){\n            case SILVER:\n                if(orderSubTotal \u003e\u003d SILVER_THRESHOLD) return orderSubTotal * SILVER_DISCOUNT;\n                break;\n\n            case GOLD :\n                if(orderSubTotal \u003e\u003d GOLD_THRESHOLD) return orderSubTotal * GOLD_DISCOUNT;\n                break;\n\n            case PLATINUM :\n                if(orderSubTotal \u003e\u003d PLATINUM_THRESHOLD) return orderSubTotal * PLATINUM_DISCOUNT;\n                break;\n\n            case BASIC:\n            default:\n                return 0.0;",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 20
+    },
+    {
+      "filePath": "/ClientController.java",
+      "timestamp": 1764146371095,
+      "startOffset": 814,
+      "endOffset": 1822,
+      "codeContent": "\n    private static final double SILVER_THRESHOLD \u003d 500.0;\n    private static final double SILVER_DISCOUNT \u003d 0.05;\n\n    private static final double GOLD_THRESHOLD \u003d 800.0;\n    private static final double GOLD_DISCOUNT \u003d 0.10;\n\n    private static final double PLATINUM_THRESHOLD \u003d 1200.0;\n    private static final double PLATINUM_DISCOUNT \u003d 0.15;\n\n   public ClientController(ClientService clientService) {\n        this.clientService \u003d clientService;\n    }\n\n    @PostMapping(\"/create\")\n    public ResponseEntity\u003c?\u003e createClient(@Validated(ClientRequest.OnCreate.class) @RequestBody ClientRequest request,\n                                          HttpSession session) {\n        Object role \u003d session.getAttribute(USER_ROLE_KEY);\n        if (role \u003d\u003d null || !\"ADMIN\".equals(role.toString())) {\n            return ResponseEntity.status(403).body(\"Access denied\");\n        }\n        ClientResponse result  \u003d clientService.createClient(request);\n       return ResponseEntity.status(HttpStatus.CREATED).body(result)",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 23
+    },
+    {
+      "filePath": "/ClientController.java",
+      "timestamp": 1764146371092,
+      "startOffset": 1500,
+      "endOffset": 1651,
+      "codeContent": "(\"/{id}\")\n    public ResponseEntity\u003c?\u003e getClientById(@PathVariable Long id){\n         Optional\u003cClientResponse\u003e clients \u003d clientService.getClientById(id",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 3
+    },
+    {
+      "filePath": "/ClientController.java",
+      "timestamp": 1764146371091,
+      "startOffset": 1671,
+      "endOffset": 1995,
+      "codeContent": "PutMapping(\"/{id}\")\n    public ResponseEntity\u003cClientResponse\u003e update(\n            @PathVariable Long id,\n            @Validated(ClientRequest.OnUpdate.class) @RequestBody ClientRequest request) {\n        ClientResponse clientResponse \u003d clientService.updateClient(id, request);\n        return ResponseEntity.ok(clientResponse",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 6
+    },
+    {
+      "filePath": "/ClientController.java",
+      "timestamp": 1764146637843,
+      "startOffset": 1161,
+      "endOffset": 1214,
+      "codeContent": "\n    private static final double TOTALSPENT \u003d 1000;\n\n",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 4
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/controller/ClientController.java",
+      "timestamp": 1764146711244,
+      "startOffset": 104,
+      "endOffset": 151,
+      "codeContent": "import com.smartshop.domain.enums.CustomerTier;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/ClientController.java",
+      "timestamp": 1764146712465,
+      "startOffset": 103,
+      "endOffset": 151,
+      "codeContent": "\nimport com.smartshop.domain.enums.CustomerTier;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 2
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/controller/ClientController.java",
+      "timestamp": 1764146747015,
+      "startOffset": 3395,
+      "endOffset": 3521,
+      "codeContent": "if(client.getTotalOrders() \u003e 3 || client.getTotalSpent() \u003e\u003d TOTALSPENT){\n          customerTier \u003d CustomerTier.SILVER;\n      }",
+      "aiProbability": 70,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 3
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/controller/ClientController.java",
+      "timestamp": 1764147339703,
+      "startOffset": 194,
+      "endOffset": 258,
+      "codeContent": "import com.smartshop.infrastructuer.Repository.ClientRepository;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/service/FidelityService.java",
+      "timestamp": 1764147372490,
+      "startOffset": 84,
+      "endOffset": 1393,
+      "codeContent": " public void updateClientLevel(Client client) {\n        int orders \u003d client.getTotalOrders();\n        double spent \u003d client.getTotalSpent();\n\n      if(orders \u003e\u003d 20 || spent \u003e\u003d 15000){\n      client.setFidelityLevel(CustomerTier.PLATINUM);\n      }else if(orders\u003e\u003d 10 || spent \u003e\u003d 5000){\n          client.setFidelityLevel(CustomerTier.GOLD);\n      }else if(orders \u003e\u003d 3 || spent \u003e\u003d 1000){\n          client.setFidelityLevel(CustomerTier.SILVER);\n      }else{\n          client.setFidelityLevel(CustomerTier.BASIC);\n      }\n        clientRepository.\n    }\n\n    public double calculateDiscount(Client client, double orderSubTotal) {\n\n        if(client \u003d\u003d null || client.getFidelityLevel() \u003d\u003d null){\n            return 0.0;\n        }\n\n        switch (client.getFidelityLevel()){\n            case SILVER:\n                if(orderSubTotal \u003e\u003d SILVER_THRESHOLD) return orderSubTotal * SILVER_DISCOUNT;\n                break;\n\n            case GOLD :\n                if(orderSubTotal \u003e\u003d GOLD_THRESHOLD) return orderSubTotal * GOLD_DISCOUNT;\n                break;\n\n            case PLATINUM :\n                if(orderSubTotal \u003e\u003d PLATINUM_THRESHOLD) return orderSubTotal * PLATINUM_DISCOUNT;\n                break;\n\n            case BASIC:\n            default:\n                return 0.0;\n        }\n\n        return 0.0;\n    }",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 42
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147372573,
+      "startOffset": 115,
+      "endOffset": 142,
+      "codeContent": "com.smartshop.domain.model.",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147372583,
+      "startOffset": 44,
+      "endOffset": 85,
+      "codeContent": "import com.smartshop.domain.model.Client;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147372596,
+      "startOffset": 339,
+      "endOffset": 366,
+      "codeContent": "com.smartshop.domain.enums.",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147372602,
+      "startOffset": 44,
+      "endOffset": 91,
+      "codeContent": "import com.smartshop.domain.enums.CustomerTier;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/service/FidelityService.java",
+      "timestamp": 1764147372655,
+      "startOffset": 44,
+      "endOffset": 135,
+      "codeContent": "import com.smartshop.domain.enums.CustomerTier;\nimport com.smartshop.domain.model.Client;\n\n",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 4
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147404623,
+      "startOffset": 140,
+      "endOffset": 160,
+      "codeContent": "IntellijIdeaRulezzz ",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/service/FidelityService.java",
+      "timestamp": 1764147405903,
+      "startOffset": 133,
+      "endOffset": 179,
+      "codeContent": "import org.springframework.stereotype.Service;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147414710,
+      "startOffset": 133,
+      "endOffset": 180,
+      "codeContent": "\nimport org.springframework.stereotype.Service;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 2
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/service/FidelityService.java",
+      "timestamp": 1764147426328,
+      "startOffset": 134,
+      "endOffset": 198,
+      "codeContent": "import com.smartshop.infrastructuer.Repository.ClientRepository;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147426874,
+      "startOffset": 133,
+      "endOffset": 198,
+      "codeContent": "\nimport com.smartshop.infrastructuer.Repository.ClientRepository;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 2
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147432890,
+      "startOffset": 686,
+      "endOffset": 713,
+      "codeContent": "public FidelityService() {}",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147432927,
+      "startOffset": 715,
+      "endOffset": 788,
+      "codeContent": "com.smartshop.infrastructuer.Repository.ClientRepository clientRepository",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147432936,
+      "startOffset": 756,
+      "endOffset": 797,
+      "codeContent": "this.clientRepository \u003d clientRepository;",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 1
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/service/FidelityService.java",
+      "timestamp": 1764147432949,
+      "startOffset": 686,
+      "endOffset": 807,
+      "codeContent": "\n\n    public FidelityService(ClientRepository clientRepository) {\n        this.clientRepository \u003d clientRepository;\n    }",
+      "aiProbability": 70,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 5
+    },
+    {
+      "filePath": "/FidelityService.java",
+      "timestamp": 1764147437478,
+      "startOffset": 1266,
+      "endOffset": 1860,
+      "codeContent": "\n\n    public void updateClientLevel(Client client) {\n        int orders \u003d client.getTotalOrders();\n        double spent \u003d client.getTotalSpent();\n\n        if(orders \u003e\u003d 20 || spent \u003e\u003d 15000){\n            client.setFidelityLevel(CustomerTier.PLATINUM);\n        }else if(orders\u003e\u003d 10 || spent \u003e\u003d 5000){\n            client.setFidelityLevel(CustomerTier.GOLD);\n        }else if(orders \u003e\u003d 3 || spent \u003e\u003d 1000){\n            client.setFidelityLevel(CustomerTier.SILVER);\n        }else{\n            client.setFidelityLevel(CustomerTier.BASIC);\n        }\n        clientRepository.IntellijIdeaRulezzz \n    }",
+      "aiProbability": 70,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 17
     }
   ],
   "toolStats": {
     "AI Assistant": {
-      "usageCount": 595,
-      "totalLines": 1760
+      "usageCount": 623,
+      "totalLines": 1939
     }
   }
 }

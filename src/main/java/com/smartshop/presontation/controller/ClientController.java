@@ -1,7 +1,9 @@
 package com.smartshop.presontation.controller;
 
 import com.smartshop.application.service.ClientService;
+import com.smartshop.domain.enums.CustomerTier;
 import com.smartshop.domain.model.Client;
+import com.smartshop.infrastructuer.Repository.ClientRepository;
 import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +23,9 @@ public class ClientController {
 
     private final ClientService clientService;
     public static final String USER_ROLE_KEY = "USER_ROLE";
-    public ClientController(ClientService clientService) {
+
+
+   public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
@@ -64,6 +68,8 @@ public class ClientController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         clientService.deleteClient(id);
         return ResponseEntity.ok(Collections.singletonMap("message", "Client supprimé avec succès"));
+
     }
+
 
 }
