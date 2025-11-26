@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderRequest {
+public class CommandeRequest {
 
     @NotNull(message = "Le Client ID est obligatoire")
     private Long clientId;
