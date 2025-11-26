@@ -1,4 +1,4 @@
-package com.smartshop.presontation.dto;
+package com.smartshop.presontation.dto.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItemDTO {
-    private Long id;
-    private Long commandeId;
+public class OrderItemResponse {
+
     private Long productId;
+    private String productName;
     private Integer quantity;
-    private Double prixUnitaireLigne;
+    private Double prixUnitaire;
     private Double totalLigne;
 }

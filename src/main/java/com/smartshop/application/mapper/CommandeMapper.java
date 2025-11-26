@@ -1,60 +1,43 @@
 package com.smartshop.application.mapper;
 
 
-import com.smartshop.presontation.dto.CommandeDTO;
 import com.smartshop.domain.model.Client;
 import com.smartshop.domain.model.Commande;
+import com.smartshop.domain.model.OrderItem;
+import com.smartshop.presontation.dto.Request.CommandeRequest;
+import com.smartshop.presontation.dto.Response.CommandeResponse;
 
 import java.util.stream.Collectors;
 
 public class CommandeMapper {
 
-    public static CommandeDTO toDto(Commande commande){
-        if (commande == null) return null;
-        return CommandeDTO.builder()
-                .id(commande.getId())
-                .clientId(commande.getClient() != null ? commande.getClient().getId() :null)
-                .date(commande.getDate())
-                .orderItems(commande.getOrderItems() != null ?
-                        commande.getOrderItems().stream()
-                                .map(OrderItemMapper::toDto)
-                                .collect(Collectors.toList()):null)
-                .sousTotalHT(commande.getSousTotalHT())
-                .montantRestant(commande.getMontantRestant())
-                .tva(commande.getTva())
-                .totalTTC(commande.getTotalTTC())
-                .montantRemise(commande.getMontantRemise())
-                .codePromo(commande.getCodePromo())
-                .statut(commande.getStatut())
+    public static Commande toEntity(CommandeRequest request){
+        if (request == null) return null;
+        return  Commande.builder()
+                .client(Client.builder().id(request.getClientId()).build())
+                .codePromo(request.getCodePromo())
                 .build();
     }
 
-        public static Commande toEntity(CommandeDTO dto){
+        public static CommandeResponse toResponse(Commande entity){
 
-            Commande commande = Commande.builder()
-                    .id(dto.getId())
-                    .client(dto.getClientId() != null ?
-                            Client.builder()
-                                    .id(dto.getClientId())
-                                    .build():null)
-                    .date(dto.getDate())
-                    .sousTotalHT(dto.getSousTotalHT())
-                    .montantRestant(dto.getMontantRestant())
-                    .tva(dto.getTva())
-                    .totalTTC(dto.getTotalTTC())
-                    .montantRemise(dto.getMontantRemise())
-                    .codePromo(dto.getCodePromo())
-                    .statut(dto.getStatut())
+            return CommandeResponse.builder()
+                    .id(entity.getId())
+                    .clientId(entity.getClient().getId())
+                    .dateCommande(entity.getDate())
+                    .sousTotalHT(entity.getSousTotalHT())
+                    .montantHTApresRemise(entity.getMontantHTApresRemise())
+                    .tva(entity.getTva())
+                    .totalTTC(entity.getTotalTTC())
+                    .montantRemise(entity.getMontantRemise())
+                    .codePromoUtilise(entity.getCodePromo())
+                    .statut(entity.getStatut())
+                    .items(entity.getOrderItems() != null ?
+                            entity.getOrderItems().stream()
+                                    .map(OrderItemMapper::toResponse)
+                                    .collect(Collectors.toList())
+                            : null)
                     .build();
 
-            if(dto.getOrderItems() != null){
-                commande.setOrderItems(dto.getOrderItems().stream()
-                        .map(itemDTO->{
-                            var item = OrderItemMapper.toEntity(itemDTO);
-                            item.setCommande(commande);
-                            return item;
-                        }).collect(Collectors.toList()));
-            }
-            return commande;
         }
 }
