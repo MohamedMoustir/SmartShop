@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class FidelityService {
 
     private final ClientRepository clientRepository ;
+
     private static final double SILVER_THRESHOLD = 500.0;
     private static final double SILVER_DISCOUNT = 0.05;
 
