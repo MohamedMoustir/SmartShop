@@ -1,4 +1,4 @@
-package com.smartshop.presontation.dto;
+package com.smartshop.presontation.dto.Response;
 
 import com.smartshop.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -13,17 +13,21 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommandeDTO {
+public class OrderResponse {
 
     private Long id;
     private Long clientId;
-    private LocalDateTime date;
-    private List<OrderItemDTO> orderItems;
+
+    private LocalDateTime dateCommande;
+    private OrderStatus statut;
+
+    private List<OrderItemResponse> items;
+
     private Double sousTotalHT;
     private Double montantRemise;
+    private Double montantHTApresRemise;
     private Double tva;
     private Double totalTTC;
-    private Double montantRestant;
-    private String codePromo;
-    private OrderStatus statut;
+
+    private String codePromoUtilise;
 }
