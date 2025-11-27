@@ -1,4 +1,98 @@
 package com.smartshop.application.service;
 
+import com.smartshop.application.mapper.PaiementMapper;
+import com.smartshop.domain.Excption.InvalidCredentialsException;
+import com.smartshop.domain.enums.PaymentStatus;
+import com.smartshop.domain.enums.TypePaiement;
+import com.smartshop.domain.model.Commande;
+import com.smartshop.domain.model.Paiement;
+import com.smartshop.infrastructuer.Repository.CommandeRepository;
+import com.smartshop.infrastructuer.Repository.PaiementRepository;
+import com.smartshop.presontation.dto.Request.PaiementRequest;
+import com.smartshop.presontation.dto.Response.PaiementResponse;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+
+@Service
+@RequiredArgsConstructor
 public class PaiementServise {
+
+    private final PaiementRepository paiementRepository;
+    private final CommandeRepository commandeRepository;
+
+    public PaiementResponse enregistrerPaiement(PaiementRequest request){
+        Commande commande = commandeRepository.findById(request.getCommandeId())
+                .orElseThrow(()-> new InvalidCredentialsException("Commande not found"));
+       if(request.getMontant() > commande.getMontantRestant()){
+           throw new RuntimeException("Le montant du paiement dépasse le montant restant dû (" + commande.getMontantRestant() + " DH)");
+       }
+       if(request.getTypePaiement() == TypePaiement.ESPECES && request.getMontant() > 20000){
+           throw new RuntimeException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
+       }
+       Paiement paiement = PaiementMapper.toEntity(request);
+       paiement.setCommande(commande);
+       paiement.setDatePaiement(LocalDate.now());
+
+        int numeroPaiement = paiementRepository.countByCommandeId(commande.getId())+1;
+        paiement.setNumeroPaiement(numeroPaiement);
+
+
+        if (request.getTypePaiement() == TypePaiement.ESPECES) {
+            paiement.setStatus(PaymentStatus.ENCAISSE);
+            paiement.setDateEncaissement(LocalDate.now());
+        }else{
+            paiement.setStatus(PaymentStatus.EN_ATTENTE);
+        }
+
+        double nouveauReste = commande.getMontantRestant() - paiement.getMontant();
+        if(nouveauReste < 0) nouveauReste = 0.0;
+        commande.setMontantRestant(nouveauReste);
+
+        paiementRepository.save(paiement);
+        commandeRepository.save(commande);
+        return PaiementMapper.toResponse(paiement);
+    }
+
+    @Transactional
+    public PaiementResponse mettreAJourStatutPaiement(Long paiementId, PaymentStatus nouveauStatut) {
+        Paiement paiement = paiementRepository.findById(paiementId)
+                .orElseThrow(() -> new RuntimeException("Paiement introuvable"));
+
+        PaymentStatus ancienStatut = paiement.getStatus();
+
+        if(nouveauStatut == PaymentStatus.REJETE && ancienStatut !=  PaymentStatus.REJETE){
+            gererImpactCommande(paiement.getCommande(),paiement.getMontant(),true);
+        }
+
+        if(ancienStatut == PaymentStatus.REJETE && nouveauStatut ==  PaymentStatus.ENCAISSE){
+            gererImpactCommande(paiement.getCommande(),paiement.getMontant(),false);
+        }
+
+        if(nouveauStatut == PaymentStatus.ENCAISSE){
+      paiement.setDateEncaissement(LocalDate.now());
+
+        }
+        paiement.setStatus(nouveauStatut);
+        Paiement saved = paiementRepository.save(paiement);
+
+        return PaiementMapper.toResponse(saved);
+    }
+
+    public void gererImpactCommande(Commande commande,Double montant, boolean estUnRejet){
+        double montantRestant = commande.getMontantRestant();
+        if(estUnRejet){
+            montantRestant += montant;
+            if(montantRestant > commande.getTotalTTC()) montantRestant =commande.getTotalTTC();
+
+        }else{
+            montantRestant -= montant;
+            if (montantRestant < 0) montantRestant = 0.0;
+        }
+        commande.setMontantRestant(montantRestant);
+        commandeRepository.save(commande);
+    }
+
 }
