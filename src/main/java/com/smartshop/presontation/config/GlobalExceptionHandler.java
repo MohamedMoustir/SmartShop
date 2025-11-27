@@ -1,6 +1,7 @@
 package com.smartshop.presontation.config;
 
 import com.smartshop.domain.Excption.InvalidCredentialsException;
+import com.smartshop.domain.Excption.InvalidOrderStateException;
 import com.smartshop.domain.Excption.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,14 @@ public class GlobalExceptionHandler {
         errors.put("message", ex.getMessage());
         errors.put("path", request.getRequestURI());
         return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidOrderStateException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidState(InvalidOrderStateException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "CONFLICT");
+        error.put("message", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(RuntimeException.class)

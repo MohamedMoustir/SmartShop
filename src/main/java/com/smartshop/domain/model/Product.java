@@ -13,7 +13,7 @@ import org.hibernate.annotations.Where;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Where(clause="delted=false")
+@Where(clause="deleted=false")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

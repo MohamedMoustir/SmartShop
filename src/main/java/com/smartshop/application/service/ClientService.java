@@ -3,7 +3,6 @@ package com.smartshop.application.service;
 import com.smartshop.application.mapper.ClientMapper;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
-import com.smartshop.domain.model.User;
 import com.smartshop.infrastructuer.Repository.ClientRepository;
 import com.smartshop.infrastructuer.Repository.UserRepository;
 import com.smartshop.presontation.dto.Request.ClientRequest;
@@ -53,7 +52,8 @@ public class ClientService {
     }
     
     public ClientResponse updateClient(Long id, ClientRequest request){
-       Client client =  clientRepository.findById(id).orElseThrow(()->  new IllegalArgumentException("Client not found"));
+       Client client =  clientRepository.findById(id)
+               .orElseThrow(()->  new IllegalArgumentException("Client not found"));
 
         if(request.getNom() != null) {
             client.setNom(request.getNom());

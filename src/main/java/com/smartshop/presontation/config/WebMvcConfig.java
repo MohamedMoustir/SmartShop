@@ -18,7 +18,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/auth/login",
                         "/api/auth/logout",
                         "/error",
-                        // ila khtadmo Swagger
                         "/swagger-ui/**"
                 );
 

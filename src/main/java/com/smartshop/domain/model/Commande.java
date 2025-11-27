@@ -1,6 +1,7 @@
     package com.smartshop.domain.model;
 
     import com.smartshop.domain.enums.OrderStatus;
+    import com.smartshop.presontation.dto.Response.OrderItemResponse;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.Builder;
@@ -34,7 +35,7 @@
         private Double montantRemise;
         private Double tva;
         private Double totalTTC;
-        private Double montantRestant;
+        private Double montantHTApresRemise;
 
         private String codePromo;
 
