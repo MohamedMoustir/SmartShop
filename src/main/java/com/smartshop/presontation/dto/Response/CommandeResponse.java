@@ -26,8 +26,9 @@ public class CommandeResponse {
     private Double sousTotalHT;
     private Double montantRemise;
     private Double montantHTApresRemise;
+
     private Double tva;
     private Double totalTTC;
-
+    private Double montantRestant;
     private String codePromoUtilise;
 }

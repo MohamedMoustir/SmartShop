@@ -93,6 +93,7 @@ public class CommandeService {
                 .montantHTApresRemise(montantHTApresRemise)
                 .sousTotalHT(sousTotal)
                 .montantRemise(totalRemise)
+                .montantRestant(totalTTC)
                 .tva(tva)
                 .totalTTC(totalTTC)
                 .build();
@@ -111,13 +112,15 @@ public class CommandeService {
         if (!OrderStatus.PENDING.equals(commande.getStatut())) {
             throw new InvalidOrderStateException("Impossible de valider cette commande. Statut actuel: " + commande.getStatut());
         }
-
+        if (commande.getMontantRestant() > 0.01) {
+            throw new RuntimeException("Impossible de confirmer : La commande n'est pas totalement payée. Reste à payer : " + commande.getMontantRestant() + " DH");
+        }
         for (OrderItem item : commande.getOrderItems()){
             Product p = item.getProduct();
             if(p.getStockDisponible() < item.getQuantity()){
              commande.setStatut(OrderStatus.REJECTED);
-             commandeRepository.save(commande);
-                throw new RuntimeException("Stock épuisé pour " + p.getNom());
+                Commande saved = commandeRepository.save(commande);
+                return CommandeMapper.toResponse(saved);
             }
             p.setStockDisponible(p.getStockDisponible() - item.getQuantity());
             productRepository.save(p);

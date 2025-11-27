@@ -23,8 +23,7 @@ public class CommandeMapper {
 
             return CommandeResponse.builder()
                     .id(entity.getId())
-                    .clientId(entity.getClient().getId())
-                    .dateCommande(entity.getDate())
+                    .clientId(entity.getClient() != null ? entity.getClient().getId() : null)                    .dateCommande(entity.getDate())
                     .sousTotalHT(entity.getSousTotalHT())
                     .montantHTApresRemise(entity.getMontantHTApresRemise())
                     .tva(entity.getTva())
@@ -32,6 +31,7 @@ public class CommandeMapper {
                     .montantRemise(entity.getMontantRemise())
                     .codePromoUtilise(entity.getCodePromo())
                     .statut(entity.getStatut())
+                    .montantRestant(entity.getMontantRestant())
                     .items(entity.getOrderItems() != null ?
                             entity.getOrderItems().stream()
                                     .map(OrderItemMapper::toResponse)
