@@ -36,9 +36,8 @@
         private Double tva;
         private Double totalTTC;
         private Double montantHTApresRemise;
-
+        private Double montantRestant;
         private String codePromo;
-
         @Enumerated(EnumType.STRING)
         private OrderStatus statut;
     }
