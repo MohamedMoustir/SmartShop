@@ -1,6 +1,5 @@
 package com.smartshop.application.mapper;
 
-import com.smartshop.presontation.dto.ClientDTO;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
 import com.smartshop.presontation.dto.Request.ClientRequest;

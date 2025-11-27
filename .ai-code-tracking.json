@@ -6853,12 +6853,67 @@
       "aiTool": "AI Assistant",
       "detectionMethod": "REALTIME_SPEED_ANALYSIS",
       "lineCount": 17
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/service/ClientService.java",
+      "timestamp": 1764185015704,
+      "startOffset": 205,
+      "endOffset": 2075,
+      "codeContent": "domain.model.User;\nimport com.smartshop.infrastructuer.Repository.ClientRepository;\nimport com.smartshop.infrastructuer.Repository.UserRepository;\nimport com.smartshop.presontation.dto.ClientDTO;\nimport com.smartshop.presontation.dto.Request.ClientRequest;\nimport com.smartshop.presontation.dto.Response.ClientResponse;\nimport org.mindrot.jbcrypt.BCrypt;\nimport org.springframework.stereotype.Service;\n\nimport java.util.List;\nimport java.util.Optional;\nimport java.util.stream.Collectors;\n\n@Service\npublic class ClientService {\n\n    private final ClientRepository  clientRepository ;\n    private final UserRepository userRepository ;\n\n    public ClientService(ClientRepository clientRepository, UserRepository userRepository) {\n        this.clientRepository \u003d clientRepository;\n        this.userRepository \u003d userRepository;\n    }\n\n    public ClientResponse createClient(ClientRequest request){\n        if (userRepository.existsByEmail(request.getEmail())) {\n            throw new IllegalArgumentException(\"Email already used\");\n        }\n\n        Client clientEntity \u003d ClientMapper.toEntity(request);\n\n        String salt \u003d BCrypt.gensalt();\n        String hashedPassword \u003d BCrypt.hashpw(request.getPassword(), salt);\n        clientEntity.setPassword(hashedPassword);\n        Client savedClient  \u003d clientRepository.save(clientEntity);\n\n        return ClientMapper.toResponse(savedClient);\n\n    }\n\n\n    public List\u003cClientResponse\u003e getAllClient(){\n        return clientRepository.findAll().stream()\n                .map(ClientMapper::toResponse)\n                .collect(Collectors.toList());\n    }\n\n    public Optional\u003cClientResponse\u003e getClientById(Long id){\n        return clientRepository.findById(id).map(ClientMapper::toResponse);\n    }\n    \n    public ClientResponse updateClient(Long id, ClientRequest request){\n       Client client \u003d  clientRepository.findById(id)",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 53
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/presontation/config/WebMvcConfig.java",
+      "timestamp": 1764185015749,
+      "startOffset": 834,
+      "endOffset": 881,
+      "codeContent": "// ila khtadmo Swagger\n                        ",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 2
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/mapper/ClientMapper.java",
+      "timestamp": 1764185015761,
+      "startOffset": 64,
+      "endOffset": 113,
+      "codeContent": "presontation.dto.ClientDTO;\nimport com.smartshop.",
+      "aiProbability": 90,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 2
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/mapper/CommandeMapper.java",
+      "timestamp": 1764185015768,
+      "startOffset": 65,
+      "endOffset": 2421,
+      "codeContent": "presontation.dto.CommandeDTO;\nimport com.smartshop.domain.model.Client;\nimport com.smartshop.domain.model.Commande;\n\nimport java.util.stream.Collectors;\n\npublic class CommandeMapper {\n\n    public static CommandeDTO toDto(Commande commande){\n        if (commande \u003d\u003d null) return null;\n        return CommandeDTO.builder()\n                .id(commande.getId())\n                .clientId(commande.getClient() !\u003d null ? commande.getClient().getId() :null)\n                .date(commande.getDate())\n                .orderItems(commande.getOrderItems() !\u003d null ?\n                        commande.getOrderItems().stream()\n                                .map(OrderItemMapper::toDto)\n                                .collect(Collectors.toList()):null)\n                .sousTotalHT(commande.getSousTotalHT())\n                .montantRestant(commande.getMontantRestant())\n                .tva(commande.getTva())\n                .totalTTC(commande.getTotalTTC())\n                .montantRemise(commande.getMontantRemise())\n                .codePromo(commande.getCodePromo())\n                .statut(commande.getStatut())\n                .build();\n    }\n\n        public static Commande toEntity(CommandeDTO dto){\n\n            Commande commande \u003d Commande.builder()\n                    .id(dto.getId())\n                    .client(dto.getClientId() !\u003d null ?\n                            Client.builder()\n                                    .id(dto.getClientId())\n                                    .build():null)\n                    .date(dto.getDate())\n                    .sousTotalHT(dto.getSousTotalHT())\n                    .montantRestant(dto.getMontantRestant())\n                    .tva(dto.getTva())\n                    .totalTTC(dto.getTotalTTC())\n                    .montantRemise(dto.getMontantRemise())\n                    .codePromo(dto.getCodePromo())\n                    .statut(dto.getStatut())\n                    .build();\n\n            if(dto.getOrderItems() !\u003d null){\n                commande.setOrderItems(dto.getOrderItems().stream()\n                        .map(itemDTO-\u003e{\n                            var item \u003d OrderItemMapper.toEntity(itemDTO);\n                            item.setCommande(commande);\n                            return item;\n                        }).collect(Collectors.toList()));\n            }\n            return commande;",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 55
+    },
+    {
+      "filePath": "C:/Users/safiy/Downloads/smartshop-backend/smartshop-backend/src/main/java/com/smartshop/application/mapper/OrderItemMapper.java",
+      "timestamp": 1764185015772,
+      "startOffset": 64,
+      "endOffset": 1324,
+      "codeContent": "presontation.dto.OrderItemDTO;\nimport com.smartshop.domain.model.Commande;\nimport com.smartshop.domain.model.OrderItem;\nimport com.smartshop.domain.model.Product;\n\npublic class OrderItemMapper {\n\n    public static OrderItem toEntity(OrderItemDTO dto) {\n        if (dto \u003d\u003d null) return null;\n\n        return OrderItem.builder()\n                .id(dto.getId())\n                .quantity(dto.getQuantity())\n                .prixUnitaireLigne(dto.getPrixUnitaireLigne())\n                .totalLigne(dto.getTotalLigne())\n\n                .commande(Commande.builder().id(dto.getCommandeId()).build())\n                .product(Product.builder().id(dto.getProductId()).build())\n\n                .build();\n    }\n\n    public static OrderItemDTO toDto(OrderItem entity) {\n        if (entity \u003d\u003d null) return null;\n\n        return OrderItemDTO.builder()\n                .id(entity.getId())\n                .quantity(entity.getQuantity())\n                .prixUnitaireLigne(entity.getPrixUnitaireLigne())\n                .totalLigne(entity.getTotalLigne())\n\n                .commandeId(entity.getCommande() !\u003d null ? entity.getCommande().getId() : null)\n                .productId(entity.getProduct() !\u003d null ? entity.getProduct().getId() : null)\n\n                .build();",
+      "aiProbability": 95,
+      "aiTool": "AI Assistant",
+      "detectionMethod": "REALTIME_SPEED_ANALYSIS",
+      "lineCount": 35
     }
   ],
   "toolStats": {
     "AI Assistant": {
-      "usageCount": 623,
-      "totalLines": 1939
+      "usageCount": 628,
+      "totalLines": 2086
     }
   }
 }

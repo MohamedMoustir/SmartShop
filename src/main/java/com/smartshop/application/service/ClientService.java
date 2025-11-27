@@ -6,7 +6,6 @@ import com.smartshop.domain.model.Client;
 import com.smartshop.domain.model.User;
 import com.smartshop.infrastructuer.Repository.ClientRepository;
 import com.smartshop.infrastructuer.Repository.UserRepository;
-import com.smartshop.presontation.dto.ClientDTO;
 import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
 import org.mindrot.jbcrypt.BCrypt;
@@ -42,7 +41,6 @@ public class ClientService {
         return ClientMapper.toResponse(savedClient);
 
     }
-
 
     public List<ClientResponse> getAllClient(){
         return clientRepository.findAll().stream()

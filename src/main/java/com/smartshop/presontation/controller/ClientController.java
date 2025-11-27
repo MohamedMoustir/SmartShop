@@ -1,13 +1,9 @@
 package com.smartshop.presontation.controller;
 
 import com.smartshop.application.service.ClientService;
-import com.smartshop.domain.enums.CustomerTier;
-import com.smartshop.domain.model.Client;
-import com.smartshop.infrastructuer.Repository.ClientRepository;
 import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
