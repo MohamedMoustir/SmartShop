@@ -2,6 +2,7 @@ package com.smartshop.presontation.controller;
 
 import com.smartshop.application.service.ProductServise;
 import com.smartshop.presontation.dto.Request.ProductRequest;
+import com.smartshop.presontation.dto.Response.CommandeResponse;
 import com.smartshop.presontation.dto.Response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -33,6 +34,11 @@ public class ProductController {
     ) {
         List<ProductResponse> products = productServise.getAllProduct(search, page, size);
         return ResponseEntity.ok(products);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> getOrderById(@PathVariable("id") Long id){
+        ProductResponse response = productServise.getProductById(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
