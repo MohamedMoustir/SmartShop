@@ -13,19 +13,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.smartshop.presontation.controller.AuthController.USER_ROLE_KEY;
+
 @RestController
-@RequestMapping("api/client")
+@RequestMapping("api/clients")
 public class ClientController {
 
     private final ClientService clientService;
-    public static final String USER_ROLE_KEY = "USER_ROLE";
 
 
    public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createClient(@Validated(ClientRequest.OnCreate.class) @RequestBody ClientRequest request,
                                           HttpSession session) {
         Object role = session.getAttribute(USER_ROLE_KEY);
