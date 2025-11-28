@@ -1,4 +1,4 @@
-package com.smartshop.infrastructuer.Repository;
+package com.smartshop.infrastructure.Repository;
 
 import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.OrderItem;

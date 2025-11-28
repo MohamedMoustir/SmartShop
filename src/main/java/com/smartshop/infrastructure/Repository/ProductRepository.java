@@ -1,4 +1,4 @@
-package com.smartshop.infrastructuer.Repository;
+package com.smartshop.infrastructure.Repository;
 
 import com.smartshop.domain.model.Product;
 import com.smartshop.presontation.dto.Response.ProductResponse;

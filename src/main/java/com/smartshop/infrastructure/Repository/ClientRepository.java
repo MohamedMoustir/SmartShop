@@ -1,4 +1,4 @@
-package com.smartshop.infrastructuer.Repository;
+package com.smartshop.infrastructure.Repository;
 
 import com.smartshop.domain.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;

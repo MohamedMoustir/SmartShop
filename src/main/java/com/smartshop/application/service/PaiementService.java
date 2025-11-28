@@ -1,13 +1,13 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.PaiementMapper;
-import com.smartshop.domain.Excption.InvalidCredentialsException;
+import com.smartshop.domain.Exception.InvalidCredentialsException;
 import com.smartshop.domain.enums.PaymentStatus;
 import com.smartshop.domain.enums.TypePaiement;
 import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.Paiement;
-import com.smartshop.infrastructuer.Repository.CommandeRepository;
-import com.smartshop.infrastructuer.Repository.PaiementRepository;
+import com.smartshop.infrastructure.Repository.CommandeRepository;
+import com.smartshop.infrastructure.Repository.PaiementRepository;
 import com.smartshop.presontation.dto.Request.PaiementRequest;
 import com.smartshop.presontation.dto.Response.PaiementResponse;
 import jakarta.transaction.Transactional;
