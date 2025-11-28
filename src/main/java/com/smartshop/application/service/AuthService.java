@@ -1,16 +1,16 @@
 package com.smartshop.application.service;
 
-import com.smartshop.domain.Excption.InvalidCredentialsException;
+import com.smartshop.domain.Exception.InvalidCredentialsException;
 import com.smartshop.domain.model.User;
-import com.smartshop.infrastructuer.Repository.UserRepository;
+import com.smartshop.infrastructure.Repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServise {
+public class AuthService {
 
     private final UserRepository userRepository;
-    public AuthServise(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
