@@ -2,7 +2,7 @@ package com.smartshop.application.service;
 
 import com.smartshop.domain.enums.CustomerTier;
 import com.smartshop.domain.model.Client;
-import com.smartshop.infrastructuer.Repository.ClientRepository;
+import com.smartshop.infrastructure.Repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 @Service
