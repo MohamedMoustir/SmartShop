@@ -1,8 +1,8 @@
 package com.smartshop.presontation.controller;
 
+import com.smartshop.application.service.AuthService;
 import com.smartshop.presontation.dto.LoginDTO;
 import com.smartshop.domain.model.User;
-import com.smartshop.application.service.AuthServise;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +14,10 @@ import java.util.Map;
 @RequestMapping("api/auth")
 public class AuthController {
 
-    private final AuthServise authServise;
+    private final AuthService authServise;
     public static final String USER_ID_KEY = "USER_ID";
     public static final String USER_ROLE_KEY = "USER_ROLE";
-    public AuthController(AuthServise authServise) {
+    public AuthController(AuthService authServise) {
         this.authServise = authServise;
     }
 
