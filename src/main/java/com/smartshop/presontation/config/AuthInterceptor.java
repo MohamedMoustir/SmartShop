@@ -1,7 +1,7 @@
 package com.smartshop.presontation.config;
 
-import com.smartshop.domain.Excption.ForbiddenException;
-import com.smartshop.domain.Excption.UnauthorizedException;
+import com.smartshop.domain.Exception.ForbiddenException;
+import com.smartshop.domain.Exception.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,7 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String userRle = session.getAttribute(USER_ROLE_KEY).toString();
         String requestPath = request.getRequestURI();
 
-        if(requestPath.startsWith("/api/client") || requestPath.startsWith("/api/product") || requestPath.startsWith("/api/commandes")){
+        if(requestPath.startsWith("/api/clients") || requestPath.startsWith("/api/products") || requestPath.startsWith("/api/commandes")){
             if("CLIENT".equals(userRle) && !request.getMethod().equalsIgnoreCase("GET")){
                 throw new ForbiddenException("Accès refusé. Seul l'ADMIN peut créer, modifier ou supprimer ces ressources.");
             }
