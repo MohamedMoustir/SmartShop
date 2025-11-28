@@ -1,4 +1,4 @@
-package com.smartshop.domain.Excption;
+package com.smartshop.domain.Exception;
 
 public class InvalidCredentialsException extends RuntimeException {
     public InvalidCredentialsException(String message) {
