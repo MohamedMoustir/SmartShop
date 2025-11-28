@@ -1,10 +1,12 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.ClientMapper;
+import com.smartshop.domain.Exception.BusinessLogicException;
+import com.smartshop.domain.Exception.ResourceNotFoundException;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
-import com.smartshop.infrastructuer.Repository.ClientRepository;
-import com.smartshop.infrastructuer.Repository.UserRepository;
+import com.smartshop.infrastructure.Repository.ClientRepository;
+import com.smartshop.infrastructure.Repository.UserRepository;
 import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
 import org.mindrot.jbcrypt.BCrypt;
@@ -27,7 +29,7 @@ public class ClientService {
 
     public ClientResponse createClient(ClientRequest request){
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already used");
+            throw new BusinessLogicException("Email already used");
         }
 
         Client clientEntity = ClientMapper.toEntity(request);
@@ -53,7 +55,7 @@ public class ClientService {
     
     public ClientResponse updateClient(Long id, ClientRequest request){
        Client client =  clientRepository.findById(id)
-               .orElseThrow(()->  new IllegalArgumentException("Client not found"));
+               .orElseThrow(()->  new ResourceNotFoundException("Client not found"));
 
         if(request.getNom() != null) {
             client.setNom(request.getNom());
@@ -77,7 +79,7 @@ public class ClientService {
     }
 
    public ClientResponse updateRole(Long id){
-       Client client =  clientRepository.findById(id).orElseThrow(()->  new IllegalArgumentException("Client not found"));
+       Client client =  clientRepository.findById(id).orElseThrow(()->  new ResourceNotFoundException("Client not found"));
        client.setRole(UserRole.ADMIN);
         Client savedClient = clientRepository.save(client);
         return ClientMapper.toResponse(savedClient);
@@ -85,8 +87,10 @@ public class ClientService {
 
     public void deleteClient(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Client introuvable avec l'id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Client introuvable avec l'id : " + id));
         clientRepository.delete(client);
     }
+
+
 
 }
