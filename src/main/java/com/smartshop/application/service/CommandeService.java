@@ -1,16 +1,18 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.CommandeMapper;
-import com.smartshop.domain.Excption.InvalidCredentialsException;
-import com.smartshop.domain.Excption.InvalidOrderStateException;
+import com.smartshop.domain.Exception.BusinessLogicException;
+import com.smartshop.domain.Exception.InvalidCredentialsException;
+import com.smartshop.domain.Exception.InvalidOrderStateException;
+import com.smartshop.domain.Exception.ResourceNotFoundException;
 import com.smartshop.domain.enums.OrderStatus;
 import com.smartshop.domain.model.Client;
 import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.OrderItem;
 import com.smartshop.domain.model.Product;
-import com.smartshop.infrastructuer.Repository.ClientRepository;
-import com.smartshop.infrastructuer.Repository.CommandeRepository;
-import com.smartshop.infrastructuer.Repository.ProductRepository;
+import com.smartshop.infrastructure.Repository.ClientRepository;
+import com.smartshop.infrastructure.Repository.CommandeRepository;
+import com.smartshop.infrastructure.Repository.ProductRepository;
 import com.smartshop.presontation.dto.Request.CommandeRequest;
 import com.smartshop.presontation.dto.Request.OrderItemRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.smartshop.application.mapper.CommandeMapper.toResponse;
 
@@ -37,7 +41,7 @@ public class CommandeService {
     @Transactional
     public  CommandeResponse createOrder(CommandeRequest request){
         Client client = clientRepository.findById(request.getClientId())
-                .orElseThrow(()-> new InvalidCredentialsException("Client not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Client not found"));
 
             List<OrderItem> orderItems = validateAndPrepareItems(request.getItems());
             double sousTotalHT = calculateSousTotal(orderItems);
@@ -51,9 +55,9 @@ public class CommandeService {
 
         for(OrderItemRequest req : orderItemRequests){
             Product product = productRepository.findById(req.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Produit introuvable ID: " + req.getProductId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Produit introuvable ID: " + req.getProductId()));
             if(product.getStockDisponible() < req.getQuantity()){
-                throw new RuntimeException("Stock insuffisant pour : " + product.getNom());
+                throw new BusinessLogicException("Stock insuffisant pour : " + product.getNom());
             }
             double lineTotal = product.getPrixUnitaire() * req.getQuantity();
             items.add(OrderItem.builder()
@@ -107,13 +111,13 @@ public class CommandeService {
     @Transactional
   public CommandeResponse validateOrder(Long orderId){
        Commande commande = commandeRepository.findById(orderId)
-               .orElseThrow(()->new InvalidCredentialsException("Order not found"));
+               .orElseThrow(()->new ResourceNotFoundException("Order not found"));
 
         if (!OrderStatus.PENDING.equals(commande.getStatut())) {
             throw new InvalidOrderStateException("Impossible de valider cette commande. Statut actuel: " + commande.getStatut());
         }
         if (commande.getMontantRestant() > 0.01) {
-            throw new RuntimeException("Impossible de confirmer : La commande n'est pas totalement payée. Reste à payer : " + commande.getMontantRestant() + " DH");
+            throw new BusinessLogicException("Impossible de confirmer : La commande n'est pas totalement payée. Reste à payer : " + commande.getMontantRestant() + " DH");
         }
         for (OrderItem item : commande.getOrderItems()){
             Product p = item.getProduct();
@@ -134,5 +138,31 @@ public class CommandeService {
         return toResponse(commandeRepository.save(commande));
     }
 
+   public List<CommandeResponse> getAllOrder(){
+        return  commandeRepository.findAll().stream()
+                .map(CommandeMapper::toResponse)
+                .collect(Collectors.toList());
 
+   }
+
+    public CommandeResponse getOrderById(Long id){
+            Commande commande = commandeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Commande not found"));
+        return CommandeMapper.toResponse(commande);
+
+    }
+
+  public  List<CommandeResponse> getMyOrder(Long id){
+
+      return commandeRepository.findByClient_Id(id).stream()
+              .map(CommandeMapper::toResponse)
+              .collect(Collectors.toList());
+
+  }
+
+    public CommandeResponse getMyOrderById(Long id ,Long clientId){
+         Commande commande = commandeRepository.findByIdAndClient_Id(id,clientId)
+                 .orElseThrow(() -> new ResourceNotFoundException("Commande not found"));;
+           return CommandeMapper.toResponse(commande);
+    }
 }
