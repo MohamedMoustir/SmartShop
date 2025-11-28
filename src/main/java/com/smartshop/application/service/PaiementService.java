@@ -1,7 +1,9 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.PaiementMapper;
+import com.smartshop.domain.Exception.BusinessLogicException;
 import com.smartshop.domain.Exception.InvalidCredentialsException;
+import com.smartshop.domain.Exception.ResourceNotFoundException;
 import com.smartshop.domain.enums.PaymentStatus;
 import com.smartshop.domain.enums.TypePaiement;
 import com.smartshop.domain.model.Commande;
@@ -18,19 +20,19 @@ import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
-public class PaiementServise {
+public class PaiementService {
 
     private final PaiementRepository paiementRepository;
     private final CommandeRepository commandeRepository;
 
     public PaiementResponse enregistrerPaiement(PaiementRequest request){
         Commande commande = commandeRepository.findById(request.getCommandeId())
-                .orElseThrow(()-> new InvalidCredentialsException("Commande not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Commande not found"));
        if(request.getMontant() > commande.getMontantRestant()){
-           throw new RuntimeException("Le montant du paiement dépasse le montant restant dû (" + commande.getMontantRestant() + " DH)");
+           throw new BusinessLogicException("Le montant du paiement dépasse le montant restant dû (" + commande.getMontantRestant() + " DH)");
        }
        if(request.getTypePaiement() == TypePaiement.ESPECES && request.getMontant() > 20000){
-           throw new RuntimeException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
+           throw new BusinessLogicException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
        }
        Paiement paiement = PaiementMapper.toEntity(request);
        paiement.setCommande(commande);
@@ -59,7 +61,7 @@ public class PaiementServise {
     @Transactional
     public PaiementResponse mettreAJourStatutPaiement(Long paiementId, PaymentStatus nouveauStatut) {
         Paiement paiement = paiementRepository.findById(paiementId)
-                .orElseThrow(() -> new RuntimeException("Paiement introuvable"));
+                .orElseThrow(() -> new ResourceNotFoundException("Paiement introuvable"));
 
         PaymentStatus ancienStatut = paiement.getStatus();
 
