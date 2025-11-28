@@ -1,11 +1,11 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.ProductMapper;
-import com.smartshop.domain.Excption.InvalidCredentialsException;
+import com.smartshop.domain.Exception.BusinessLogicException;
+import com.smartshop.domain.Exception.ResourceNotFoundException;
 import com.smartshop.domain.model.Product;
-import com.smartshop.infrastructuer.Repository.CommandeRepository;
-import com.smartshop.infrastructuer.Repository.OrderItemRepository;
-import com.smartshop.infrastructuer.Repository.ProductRepository;
+import com.smartshop.infrastructure.Repository.OrderItemRepository;
+import com.smartshop.infrastructure.Repository.ProductRepository;
 import com.smartshop.presontation.dto.Request.ProductRequest;
 import com.smartshop.presontation.dto.Response.ProductResponse;
 import lombok.RequiredArgsConstructor;
@@ -45,9 +45,16 @@ public class ProductServise {
 
     }
 
+    public ProductResponse getProductById(Long id){
+        Product product = productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
+
+        return ProductMapper.toResponse(product);
+
+    }
+
     public void deleteProduct(Long id){
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product introuvable avec l'id : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product introuvable avec l'id : " + id));
           Boolean existsInOrder = orderItemRepository.existsByProduct_Id(id);
         if(!existsInOrder){
             product.setDeleted(true);
@@ -57,14 +64,13 @@ public class ProductServise {
 
         }
 
-
     }
 
     public ProductResponse updateProduct(Long id ,ProductRequest request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         if (request.getNom() == null || request.getPrixUnitaire() == null) {
-            throw new IllegalArgumentException("Les informations du produit sont incomplètes.");
+            throw new BusinessLogicException("Les informations du produit sont incomplètes.");
         }
             product.setNom(request.getNom());
             product.setPrixUnitaire(request.getPrixUnitaire());
