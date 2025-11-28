@@ -1,10 +1,7 @@
 package com.smartshop.domain.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "orderItems")
@@ -19,6 +16,8 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commande_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Commande commande;
 
     @ManyToOne(fetch = FetchType.LAZY)
