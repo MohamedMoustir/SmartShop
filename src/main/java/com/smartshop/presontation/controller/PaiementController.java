@@ -1,6 +1,6 @@
 package com.smartshop.presontation.controller;
 
-import com.smartshop.application.service.PaiementServise;
+import com.smartshop.application.service.PaiementService;
 import com.smartshop.domain.enums.PaymentStatus;
 import com.smartshop.presontation.dto.Request.PaiementRequest;
 import com.smartshop.presontation.dto.Response.PaiementResponse;
@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PaiementController {
 
-    private final PaiementServise paiementServise;
+    private final PaiementService paiementService;
     @PostMapping
     public ResponseEntity<PaiementResponse> creerPaiement(@Valid @RequestBody PaiementRequest request) {
-        PaiementResponse response = paiementServise.enregistrerPaiement(request);
+        PaiementResponse response = paiementService.enregistrerPaiement(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}/status")
+    @PatchMapping("{id}/status")
     public ResponseEntity<PaiementResponse> mettreAJourStatutPaiement(
             @Valid @PathVariable("id") Long id
             ,  @RequestParam("nouveauStatut") PaymentStatus nouveauStatut ) {
-        PaiementResponse response = paiementServise.mettreAJourStatutPaiement(id ,nouveauStatut);
+        PaiementResponse response = paiementService.mettreAJourStatutPaiement(id ,nouveauStatut);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
