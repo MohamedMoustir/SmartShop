@@ -9,6 +9,7 @@ import com.smartshop.infrastructure.Repository.ClientRepository;
 import com.smartshop.infrastructure.Repository.UserRepository;
 import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
+import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -17,40 +18,38 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
 
     private final ClientRepository  clientRepository ;
     private final UserRepository userRepository ;
+    private final ClientMapper clientMapper;
 
-    public ClientService(ClientRepository clientRepository, UserRepository userRepository) {
-        this.clientRepository = clientRepository;
-        this.userRepository = userRepository;
-    }
 
     public ClientResponse createClient(ClientRequest request){
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new BusinessLogicException("Email already used");
         }
 
-        Client clientEntity = ClientMapper.toEntity(request);
+        Client clientEntity = clientMapper.toEntity(request);
 
         String salt = BCrypt.gensalt();
         String hashedPassword = BCrypt.hashpw(request.getPassword(), salt);
         clientEntity.setPassword(hashedPassword);
         Client savedClient  = clientRepository.save(clientEntity);
 
-        return ClientMapper.toResponse(savedClient);
+        return clientMapper.toResponse(savedClient);
 
     }
 
     public List<ClientResponse> getAllClient(){
         return clientRepository.findAll().stream()
-                .map(ClientMapper::toResponse)
+                .map(clientMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     public Optional<ClientResponse> getClientById(Long id){
-        return clientRepository.findById(id).map(ClientMapper::toResponse);
+        return clientRepository.findById(id).map(clientMapper::toResponse);
     }
     
     public ClientResponse updateClient(Long id, ClientRequest request){
@@ -75,14 +74,14 @@ public class ClientService {
 
         Client savedClient = clientRepository.save(client);
 
-        return ClientMapper.toResponse(savedClient);
+        return clientMapper.toResponse(savedClient);
     }
 
    public ClientResponse updateRole(Long id){
        Client client =  clientRepository.findById(id).orElseThrow(()->  new ResourceNotFoundException("Client not found"));
        client.setRole(UserRole.ADMIN);
         Client savedClient = clientRepository.save(client);
-        return ClientMapper.toResponse(savedClient);
+        return clientMapper.toResponse(savedClient);
     }
 
     public void deleteClient(Long id) {

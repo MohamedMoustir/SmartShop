@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.smartshop.application.mapper.CommandeMapper.toResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +35,7 @@ public class CommandeService {
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
     private final FidelityService fidelityService;
+    private final CommandeMapper commandeMapper;
     private final String  CODEPROMO = "PROMO-2025";
 
     @Transactional
@@ -47,7 +47,7 @@ public class CommandeService {
             double sousTotalHT = calculateSousTotal(orderItems);
         double totalRemise = calculateTotalRemise(client, sousTotalHT, request.getCodePromo());
         Commande savedCommande = buildAndSaveCommande(client, orderItems, sousTotalHT, totalRemise, request.getCodePromo());
-        return CommandeMapper.toResponse(savedCommande);
+        return commandeMapper.toResponse(savedCommande);
     }
 
     private List<OrderItem> validateAndPrepareItems(List<OrderItemRequest> orderItemRequests){
@@ -125,7 +125,7 @@ public class CommandeService {
             if(p.getStockDisponible() < item.getQuantity()){
              commande.setStatut(OrderStatus.REJECTED);
                 Commande saved = commandeRepository.save(commande);
-                return CommandeMapper.toResponse(saved);
+                return commandeMapper.toResponse(saved);
             }
             p.setStockDisponible(p.getStockDisponible() - item.getQuantity());
             productRepository.save(p);
@@ -136,12 +136,12 @@ public class CommandeService {
         client.setTotalSpent(client.getTotalSpent() + commande.getTotalTTC());
         fidelityService.updateClientLevel(client);
         commande.setStatut(OrderStatus.CONFIRMED);
-        return toResponse(commandeRepository.save(commande));
+        return commandeMapper.toResponse(commandeRepository.save(commande));
     }
 
    public List<CommandeResponse> getAllOrder(){
         return  commandeRepository.findAll().stream()
-                .map(CommandeMapper::toResponse)
+                .map(commandeMapper::toResponse)
                 .collect(Collectors.toList());
 
    }
@@ -149,14 +149,14 @@ public class CommandeService {
     public CommandeResponse getOrderById(Long id){
             Commande commande = commandeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Commande not found"));
-        return CommandeMapper.toResponse(commande);
+        return commandeMapper.toResponse(commande);
 
     }
 
   public  List<CommandeResponse> getMyOrder(Long id){
 
       return commandeRepository.findByClient_Id(id).stream()
-              .map(CommandeMapper::toResponse)
+              .map(commandeMapper::toResponse)
               .collect(Collectors.toList());
 
   }
@@ -164,6 +164,6 @@ public class CommandeService {
     public CommandeResponse getMyOrderById(Long id ,Long clientId){
          Commande commande = commandeRepository.findByIdAndClient_Id(id,clientId)
                  .orElseThrow(() -> new ResourceNotFoundException("Commande not found"));;
-           return CommandeMapper.toResponse(commande);
+           return commandeMapper.toResponse(commande);
     }
 }

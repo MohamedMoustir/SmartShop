@@ -1,32 +1,24 @@
 package com.smartshop.application.mapper;
 
-import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
 import com.smartshop.presontation.dto.Request.ClientRequest;
 import com.smartshop.presontation.dto.Response.ClientResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class ClientMapper {
+@Mapper(componentModel = "spring")
+public interface ClientMapper {
 
+    @Mapping(target = "role", constant = "CLIENT")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "totalOrders", ignore = true)
+    @Mapping(target = "totalSpent", ignore = true)
+    @Mapping(target = "fidelityLevel", ignore = true)
+    @Mapping(target = "firstOrderAt", ignore = true)
+    @Mapping(target = "lastOrderAt", ignore = true)
+    Client  toEntity(ClientRequest clientRequest);
 
-    public static Client toEntity(ClientRequest client){
-        if(client == null ) return null;
-        return Client.builder()
-                .email(client.getEmail())
-                .nom(client.getNom())
-                .role(UserRole.CLIENT)
-                .build();
-    }
-
-    public static ClientResponse toResponse(Client dto){
-        if(dto == null)return null;
-        return ClientResponse.builder()
-                .id(dto.getId())
-                .email(dto.getEmail())
-                .role(String.valueOf(dto.getRole()))
-                .nom(dto.getNom())
-                .totalOrders(dto.getTotalOrders())
-                .totalSpent(dto.getTotalSpent())
-                .fidelityLevel(dto.getFidelityLevel())
-                .build();
-    }
+    ClientResponse toResponse(Client client);
 }
+
+

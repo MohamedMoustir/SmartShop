@@ -10,10 +10,10 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "users")
 @Data
-@Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class  User {
 
     @Id

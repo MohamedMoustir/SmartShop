@@ -24,7 +24,7 @@ public class PaiementService {
 
     private final PaiementRepository paiementRepository;
     private final CommandeRepository commandeRepository;
-
+    private final PaiementMapper paiementMapper ;
     public PaiementResponse enregistrerPaiement(PaiementRequest request){
         Commande commande = commandeRepository.findById(request.getCommandeId())
                 .orElseThrow(()-> new ResourceNotFoundException("Commande not found"));
@@ -35,7 +35,7 @@ public class PaiementService {
            throw new BusinessLogicException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
        }
 
-       Paiement paiement = PaiementMapper.toEntity(request);
+       Paiement paiement = paiementMapper.toEntity(request);
        paiement.setCommande(commande);
        paiement.setDatePaiement(LocalDate.now());
 
@@ -56,7 +56,7 @@ public class PaiementService {
 
         paiementRepository.save(paiement);
         commandeRepository.save(commande);
-        return PaiementMapper.toResponse(paiement);
+        return paiementMapper.toResponse(paiement);
     }
 
     @Transactional
@@ -81,7 +81,7 @@ public class PaiementService {
         paiement.setStatus(nouveauStatut);
         Paiement saved = paiementRepository.save(paiement);
 
-        return PaiementMapper.toResponse(saved);
+        return paiementMapper.toResponse(saved);
     }
 
     public void gererImpactCommande(Commande commande,Double montant, boolean estUnRejet){

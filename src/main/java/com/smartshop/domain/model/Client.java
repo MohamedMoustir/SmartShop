@@ -2,11 +2,10 @@ package com.smartshop.domain.model;
 
 import com.smartshop.domain.enums.CustomerTier;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "clients")
@@ -14,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class Client extends User{
 
     @Builder.Default
@@ -26,5 +26,8 @@ public class Client extends User{
 
     @Builder.Default
     private Integer totalOrders = 0;
+
+    private LocalDateTime firstOrderAt;
+    private LocalDateTime lastOrderAt;
 
 }

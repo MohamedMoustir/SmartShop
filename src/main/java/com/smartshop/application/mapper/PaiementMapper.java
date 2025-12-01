@@ -1,41 +1,23 @@
 package com.smartshop.application.mapper;
 
-import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.Paiement;
 import com.smartshop.presontation.dto.Request.PaiementRequest;
 import com.smartshop.presontation.dto.Response.PaiementResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class PaiementMapper {
+@Mapper(componentModel = "spring")
+public interface PaiementMapper {
 
-    public static Paiement toEntity(PaiementRequest request){
-        if(request == null ) return null;
-        return Paiement.builder()
-                .banque(request.getBanque())
-                .commande(request.getCommandeId() != null ?
-                        Commande.builder()
-                                .id(request.getCommandeId())
-                                .build() :null )
-                .dateEcheance(request.getDateEcheance())
-                .montant(request.getMontant())
-                .typePaiement(request.getTypePaiement())
-                .reference(request.getReference())
-                .build();
-    }
-    public static PaiementResponse toResponse(Paiement paiement){
-        if(paiement == null ) return null;
-        return PaiementResponse.builder()
-                .id(paiement.getId())
-                .banque(paiement.getBanque())
-                .numeroPaiement(paiement.getNumeroPaiement())
-                .commandeId(paiement.getCommande() != null ? paiement.getCommande().getId():null)
-                .datePaiement(paiement.getDatePaiement())
-                .dateEcheance(paiement.getDateEcheance())
-                .dateEncaissement(paiement.getDateEncaissement())
-                .montant(paiement.getMontant())
-                .typePaiement(paiement.getTypePaiement())
-                .reference(paiement.getReference())
-                .montantRestant(paiement.getCommande() != null ? paiement.getCommande().getMontantRestant():null)
-                .status(paiement.getStatus())
-                .build();
-    }
+    @Mapping(source = "commandeId", target = "commande.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "numeroPaiement", ignore = true)
+    @Mapping(target = "datePaiement", ignore = true)
+    @Mapping(target = "dateEncaissement", ignore = true)
+    @Mapping(target = "status", ignore = true)
+    Paiement toEntity(PaiementRequest request);
+
+    @Mapping(source = "commande.id", target = "commandeId")
+    @Mapping(source = "commande.montantRestant", target = "montantRestant")
+    PaiementResponse toResponse(Paiement paiement);
 }

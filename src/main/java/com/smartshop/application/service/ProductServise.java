@@ -19,10 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.smartshop.application.mapper.ProductMapper.toResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -30,12 +28,13 @@ public class ProductServise {
 
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ProductMapper productMapper;
 
 
     public ProductResponse createProduct(ProductRequest request){
-        Product productEntity = ProductMapper.toEntity(request);
+        Product productEntity = productMapper.toEntity(request);
         Product product = productRepository.save(productEntity);
-        return toResponse(product);
+        return productMapper.toResponse(product);
     }
 
     public List<ProductResponse> getAllProduct(String nom , int page, int size){
@@ -47,14 +46,14 @@ public class ProductServise {
         } else {
             productPage = productRepository.findByNomContaining(nom, pageable);
         }
-        return productPage.getContent().stream().map(ProductMapper::toResponse).collect(Collectors.toList());
+        return productPage.getContent().stream().map(productMapper::toResponse).collect(Collectors.toList());
 
     }
 
     public ProductResponse getProductById(Long id){
         Product product = productRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Product not found"));
 
-        return ProductMapper.toResponse(product);
+        return productMapper.toResponse(product);
 
     }
 
@@ -85,7 +84,7 @@ public class ProductServise {
         }
 
         Product product1 = productRepository.save(product);
-        return toResponse(product1);
+        return productMapper.toResponse(product1);
     }
 
 
