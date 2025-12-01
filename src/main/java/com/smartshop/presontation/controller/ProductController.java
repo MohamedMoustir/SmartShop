@@ -1,8 +1,10 @@
 package com.smartshop.presontation.controller;
 
 import com.smartshop.application.service.ProductServise;
+import com.smartshop.domain.model.OrderItem;
 import com.smartshop.presontation.dto.Request.ProductRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
+import com.smartshop.presontation.dto.Response.OrderItemResponse;
 import com.smartshop.presontation.dto.Response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
@@ -55,4 +58,6 @@ public class ProductController {
         productServise.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
