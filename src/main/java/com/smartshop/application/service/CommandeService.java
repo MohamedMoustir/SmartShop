@@ -36,7 +36,7 @@ public class CommandeService {
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
     private final FidelityService fidelityService;
-    String  CODEPROMO = "PROMO-2025";
+    private final String  CODEPROMO = "PROMO-2025";
 
     @Transactional
     public  CommandeResponse createOrder(CommandeRequest request){
@@ -59,6 +59,7 @@ public class CommandeService {
             if(product.getStockDisponible() < req.getQuantity()){
                 throw new BusinessLogicException("Stock insuffisant pour : " + product.getNom());
             }
+
             double lineTotal = product.getPrixUnitaire() * req.getQuantity();
             items.add(OrderItem.builder()
                     .product(product)
