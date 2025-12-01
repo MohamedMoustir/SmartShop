@@ -3,7 +3,6 @@ package com.smartshop.application.mapper;
 
 import com.smartshop.domain.model.Client;
 import com.smartshop.domain.model.Commande;
-import com.smartshop.domain.model.OrderItem;
 import com.smartshop.presontation.dto.Request.CommandeRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
 
@@ -23,7 +22,8 @@ public class CommandeMapper {
 
             return CommandeResponse.builder()
                     .id(entity.getId())
-                    .clientId(entity.getClient() != null ? entity.getClient().getId() : null)                    .dateCommande(entity.getDate())
+                    .clientId(entity.getClient() != null ? entity.getClient().getId() : null)
+                    .dateCommande(entity.getDate())
                     .sousTotalHT(entity.getSousTotalHT())
                     .montantHTApresRemise(entity.getMontantHTApresRemise())
                     .tva(entity.getTva())
