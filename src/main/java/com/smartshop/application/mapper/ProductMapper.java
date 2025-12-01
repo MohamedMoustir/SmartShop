@@ -3,28 +3,15 @@ package com.smartshop.application.mapper;
 import com.smartshop.domain.model.Product;
 import com.smartshop.presontation.dto.Request.ProductRequest;
 import com.smartshop.presontation.dto.Response.ProductResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class ProductMapper {
+@Mapper(componentModel = "spring")
+public interface ProductMapper {
 
-    public static Product toEntity(ProductRequest product) {
-        if (product == null) return null;
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
+    Product toEntity(ProductRequest product);
 
-        return Product.builder()
-                .nom(product.getNom())
-                .prixUnitaire(product.getPrixUnitaire())
-                .stockDisponible(product.getStockDisponible())
-                .build();
-    }
-
-    public static ProductResponse toResponse(Product dto) {
-        if (dto == null) return null;
-
-        return ProductResponse.builder()
-                .id(dto.getId())
-                .nom(dto.getNom())
-                .prixUnitaire(dto.getPrixUnitaire())
-                .stockDisponible(dto.getStockDisponible())
-                .deleted(dto.isDeleted())
-                .build();
-    }
+    ProductResponse toResponse(Product dto);
 }

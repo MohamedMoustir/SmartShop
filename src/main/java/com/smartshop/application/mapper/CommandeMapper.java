@@ -1,43 +1,23 @@
 package com.smartshop.application.mapper;
 
-
-import com.smartshop.domain.model.Client;
 import com.smartshop.domain.model.Commande;
 import com.smartshop.presontation.dto.Request.CommandeRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import java.util.stream.Collectors;
 
-public class CommandeMapper {
+@Mapper(componentModel = "spring", uses = {OrderItemMapper.class})
+public interface CommandeMapper {
 
-    public static Commande toEntity(CommandeRequest request){
-        if (request == null) return null;
-        return  Commande.builder()
-                .client(Client.builder().id(request.getClientId()).build())
-                .codePromo(request.getCodePromo())
-                .build();
-    }
+    @Mapping(source = "clientId", target = "client.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "date", ignore = true)
+    @Mapping(target = "statut", ignore = true)
+    Commande toEntity(CommandeRequest request);
 
-        public static CommandeResponse toResponse(Commande entity){
-
-            return CommandeResponse.builder()
-                    .id(entity.getId())
-                    .clientId(entity.getClient() != null ? entity.getClient().getId() : null)
-                    .dateCommande(entity.getDate())
-                    .sousTotalHT(entity.getSousTotalHT())
-                    .montantHTApresRemise(entity.getMontantHTApresRemise())
-                    .tva(entity.getTva())
-                    .totalTTC(entity.getTotalTTC())
-                    .montantRemise(entity.getMontantRemise())
-                    .codePromoUtilise(entity.getCodePromo())
-                    .statut(entity.getStatut())
-                    .montantRestant(entity.getMontantRestant())
-                    .items(entity.getOrderItems() != null ?
-                            entity.getOrderItems().stream()
-                                    .map(OrderItemMapper::toResponse)
-                                    .collect(Collectors.toList())
-                            : null)
-                    .build();
-
-        }
+    @Mapping(source = "date", target = "dateCommande")
+    @Mapping(source = "codePromo", target = "codePromoUtilise")
+    @Mapping(source = "orderItems", target = "items")
+    CommandeResponse toResponse(Commande entity);
 }

@@ -1,32 +1,23 @@
 package com.smartshop.application.mapper;
 
-import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.OrderItem;
-import com.smartshop.domain.model.Product;
 import com.smartshop.presontation.dto.Request.OrderItemRequest;
 import com.smartshop.presontation.dto.Response.OrderItemResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class OrderItemMapper {
+@Mapper(componentModel = "spring")
+public interface OrderItemMapper {
 
-    public static OrderItem toEntity(OrderItemRequest request) {
-        if (request == null) return null;
+    @Mapping(source = "productId", target = "product.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "commande", ignore = true)
+    @Mapping(target = "prixUnitaireLigne", ignore = true)
+    @Mapping(target = "totalLigne", ignore = true)
+    OrderItem toEntity(OrderItemRequest request);
 
-        return OrderItem.builder()
-                .quantity(request.getQuantity())
-                .product(Product.builder().id(request.getProductId()).build())
-                .build();
-    }
-
-    public static OrderItemResponse toResponse(OrderItem entity) {
-        if (entity == null) return null;
-
-        return OrderItemResponse.builder()
-                .productId(entity.getProduct().getId())
-                .productName(entity.getProduct().getNom())
-                .quantity(entity.getQuantity())
-                .prixUnitaire(entity.getPrixUnitaireLigne())
-                .totalLigne(entity.getTotalLigne())
-                .build();
-
-    }
+    @Mapping(source = "product.id", target = "productId")
+    @Mapping(source = "product.nom", target = "productName")
+    @Mapping(source = "prixUnitaireLigne", target = "prixUnitaire")
+    OrderItemResponse toResponse(OrderItem entity);
 }
