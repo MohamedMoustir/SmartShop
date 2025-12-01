@@ -34,6 +34,7 @@ public class PaiementService {
        if(request.getTypePaiement() == TypePaiement.ESPECES && request.getMontant() > 20000){
            throw new BusinessLogicException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
        }
+
        Paiement paiement = PaiementMapper.toEntity(request);
        paiement.setCommande(commande);
        paiement.setDatePaiement(LocalDate.now());
@@ -87,7 +88,7 @@ public class PaiementService {
         double montantRestant = commande.getMontantRestant();
         if(estUnRejet){
             montantRestant += montant;
-            if(montantRestant > commande.getTotalTTC()) montantRestant =commande.getTotalTTC();
+            if(montantRestant > commande.getTotalTTC()) montantRestant = commande.getTotalTTC();
 
         }else{
             montantRestant -= montant;

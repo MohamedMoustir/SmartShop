@@ -1,12 +1,17 @@
 package com.smartshop.application.service;
 
+import com.smartshop.application.mapper.OrderItemMapper;
 import com.smartshop.application.mapper.ProductMapper;
 import com.smartshop.domain.Exception.BusinessLogicException;
 import com.smartshop.domain.Exception.ResourceNotFoundException;
+import com.smartshop.domain.model.Client;
+import com.smartshop.domain.model.OrderItem;
 import com.smartshop.domain.model.Product;
 import com.smartshop.infrastructure.Repository.OrderItemRepository;
 import com.smartshop.infrastructure.Repository.ProductRepository;
 import com.smartshop.presontation.dto.Request.ProductRequest;
+import com.smartshop.presontation.dto.Response.ClientResponse;
+import com.smartshop.presontation.dto.Response.OrderItemResponse;
 import com.smartshop.presontation.dto.Response.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.smartshop.application.mapper.ProductMapper.toResponse;
@@ -81,4 +87,7 @@ public class ProductServise {
         Product product1 = productRepository.save(product);
         return toResponse(product1);
     }
+
+
+
 }

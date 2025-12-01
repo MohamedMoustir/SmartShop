@@ -1,5 +1,6 @@
 package com.smartshop.presontation.config; // Note: Fix typo "presontation" -> "presentation" if possible
 
+import com.smartshop.domain.Exception.ForbiddenException;
 import com.smartshop.domain.Exception.InvalidCredentialsException;
 import com.smartshop.domain.Exception.InvalidOrderStateException;
 import com.smartshop.domain.Exception.ResourceNotFoundException;
@@ -51,7 +52,6 @@ public class GlobalExceptionHandler {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
                 .collect(Collectors.joining("; "));
-
         return buildResponse(HttpStatus.BAD_REQUEST, "VALIDATION_ERROR", errorMessage, request.getRequestURI());
     }
 
@@ -65,5 +65,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex, HttpServletRequest request) {
         logger.error("Critical error: {}", ex.getMessage(), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR", "Contact support", request.getRequestURI());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Map<String, Object>> handleForbiddenException(Exception ex, HttpServletRequest request) {
+        logger.error("Forbidden error: {}", ex.getMessage(), ex);
+        return buildResponse(HttpStatus.FORBIDDEN, "FORBIDDEN", ex.getMessage(), request.getRequestURI());
     }
 }

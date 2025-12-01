@@ -1,5 +1,6 @@
 package com.smartshop.presontation.config;
 
+import com.smartshop.application.service.ProductServise;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Admin;
 import com.smartshop.infrastructure.Repository.AdminRepository;
@@ -17,6 +18,7 @@ public class DataSeeder implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(DataSeeder.class);
 
     private final AdminRepository adminRepository ;
+    private final ProductServise productServise ;
 
     @Override
     public void run(String... args) throws Exception {
