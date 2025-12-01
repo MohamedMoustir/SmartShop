@@ -1,5 +1,3 @@
-version: '3.8'
-
 
 services:
   smartshop_db:
@@ -7,10 +5,10 @@ services:
     container_name: smartshop_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: smartshopdb
-      MYSQL_USER: smartshop
-      MYSQL_PASSWORD: smartshop123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3308:3306"
     volumes:

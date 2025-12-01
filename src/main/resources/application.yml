@@ -1,8 +1,8 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3308/smartshopdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: smartshop
-    password: smartshop123
+#  datasource:
+#    url: jdbc:mysql://localhost:3308/smartshopdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+#    username: smartshop
+#    password: smartshop123
 
   jpa:
     hibernate:
