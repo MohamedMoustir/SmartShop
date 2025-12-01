@@ -3,9 +3,11 @@ package com.smartshop.presontation.dto.Request;
 import com.smartshop.domain.model.Client;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class ClientRequest {
     public interface OnCreate {}
     public interface OnUpdate {}

@@ -2,62 +2,139 @@ package com.smartshop.TestClientService;
 
 import com.smartshop.application.mapper.ClientMapper;
 import com.smartshop.application.service.ClientService;
+import com.smartshop.domain.Exception.BusinessLogicException;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
 import com.smartshop.infrastructure.Repository.ClientRepository;
-
-import jakarta.validation.constraints.AssertTrue;
-import org.junit.jupiter.api.BeforeEach;
+import com.smartshop.infrastructure.Repository.UserRepository;
+import com.smartshop.presontation.dto.Request.ClientRequest;
+import com.smartshop.presontation.dto.Response.ClientResponse;
 import org.junit.jupiter.api.Test;
-import org.mindrot.jbcrypt.BCrypt;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class testClient {
-
+@ExtendWith(MockitoExtension.class)
+class ClientServiceTest {
 
     @Mock
-    private ClientMapper clientMapper ;
+    private ClientRepository clientRepository;
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private ClientMapper clientMapper;
 
     @InjectMocks
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.openMocks(this);
+    @Test
+    void createClient_Success() {
+        ClientRequest request = ClientRequest.builder()
+                .email("test@smartshop.ma")
+                .nom("Alpha Societe")
+                .password("pass123")
+                .build();
+
+        Client clientEntity = Client.builder()
+                .id(1L)
+                .email("test@smartshop.ma")
+                .build();
+
+        Client savedClient = Client.builder()
+                .id(1L)
+                .email("test@smartshop.ma")
+                .password("hashed_pass")
+                .build();
+
+        ClientResponse expectedResponse = ClientResponse.builder()
+                .id(1L)
+                .email("test@smartshop.ma")
+                .build();
+
+        when(userRepository.existsByEmail(anyString())).thenReturn(false);
+        when(clientMapper.toEntity(any(ClientRequest.class))).thenReturn(clientEntity);
+        when(clientRepository.save(any(Client.class))).thenReturn(savedClient);
+        when(clientMapper.toResponse(any(Client.class))).thenReturn(expectedResponse);
+
+        ClientResponse result = clientService.createClient(request);
+
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        verify(clientRepository).save(any(Client.class));
     }
 
     @Test
-    void create_client_test(){
-     Client client = Client.builder()
-             .id(1L)
-             .nom("mohamed")
-             .email("mohamed@gmail.com")
-             .password("test12z34")
-             .totalOrders(0)
-             .totalSpent(0.00)
-             .build();
+    void createClient_EmailExists_ThrowsException() {
+        ClientRequest request = ClientRequest.builder()
+                .email("exist@smartshop.ma")
+                .build();
 
-        String salt = BCrypt.gensalt();
-        String hashedPassword = BCrypt.hashpw(client.getPassword(),salt);
-        client.setPassword(hashedPassword);
-        Client client1 = clientRepository.save(client);
-        when(client1).thenReturn(client);
-         assertNotNull(client1);
-         assertFalse(false);
-         assertEquals("mohame@gmail.com",client1.getEmail());
-        verify(clientRepository ,times(1)).save(client);
+        when(userRepository.existsByEmail(request.getEmail())).thenReturn(true);
 
+        assertThrows(BusinessLogicException.class, () -> clientService.createClient(request));
+        verify(clientRepository, never()).save(any());
     }
 
+    @Test
+    void getClientById_Success() {
+        Long id = 1L;
+        Client client = Client.builder().id(id).build();
+        ClientResponse response = ClientResponse.builder().id(id).build();
 
+        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
+        when(clientMapper.toResponse(client)).thenReturn(response);
 
-//    presontation
-//    switch mapper
+        Optional<ClientResponse> result = clientService.getClientById(id);
 
+        assertTrue(result.isPresent());
+        assertEquals(id, result.get().getId());
+    }
 
+    @Test
+    void updateClient_Success() {
+        Long id = 1L;
+
+        ClientRequest updateRequest = ClientRequest.builder()
+                .nom("New Name")
+                .role("ADMIN")
+                .build();
+
+        Client existingClient = Client.builder()
+                .id(id)
+                .nom("Old Name")
+                .role(UserRole.CLIENT)
+                .build();
+
+        Client updatedClient = Client.builder()
+                .id(id)
+                .nom("New Name")
+                .role(UserRole.ADMIN)
+                .build();
+
+        ClientResponse response = ClientResponse.builder().id(id).nom("New Name").build();
+
+        when(clientRepository.findById(id)).thenReturn(Optional.of(existingClient));
+        when(clientRepository.save(any(Client.class))).thenReturn(updatedClient);
+        when(clientMapper.toResponse(any(Client.class))).thenReturn(response);
+        ClientResponse result = clientService.updateClient(id, updateRequest);
+        assertEquals("New Name", result.getNom());
+        verify(clientRepository).save(existingClient);
+    }
+
+    @Test
+    void deleteClient_Success() {
+        Long id = 1L;
+        Client client = Client.builder().id(id).build();
+        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
+        clientService.deleteClient(id);
+        verify(clientRepository).delete(client);
+    }
 }
