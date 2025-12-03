@@ -1,7 +1,10 @@
 package com.smartshop.presontation.controller;
 
 import com.smartshop.application.service.ProductServise;
+import com.smartshop.domain.enums.OrderStatus;
+import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.OrderItem;
+import com.smartshop.infrastructure.Repository.ProductRepository;
 import com.smartshop.presontation.dto.Request.ProductRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
 import com.smartshop.presontation.dto.Response.OrderItemResponse;
@@ -58,6 +61,7 @@ public class ProductController {
         productServise.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
 
 
 }
