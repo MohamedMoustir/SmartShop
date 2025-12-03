@@ -2,7 +2,7 @@ package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.PaiementMapper;
 import com.smartshop.domain.Exception.BusinessLogicException;
-import com.smartshop.domain.Exception.InvalidCredentialsException;
+import com.smartshop.domain.Exception.CustomValidationException;
 import com.smartshop.domain.Exception.ResourceNotFoundException;
 import com.smartshop.domain.enums.PaymentStatus;
 import com.smartshop.domain.enums.TypePaiement;
@@ -15,8 +15,11 @@ import com.smartshop.presontation.dto.Response.PaiementResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,14 +28,15 @@ public class PaiementService {
     private final PaiementRepository paiementRepository;
     private final CommandeRepository commandeRepository;
     private final PaiementMapper paiementMapper ;
+
     public PaiementResponse enregistrerPaiement(PaiementRequest request){
         Commande commande = commandeRepository.findById(request.getCommandeId())
                 .orElseThrow(()-> new ResourceNotFoundException("Commande not found"));
        if(request.getMontant() > commande.getMontantRestant()){
-           throw new BusinessLogicException("Le montant du paiement dépasse le montant restant dû (" + commande.getMontantRestant() + " DH)");
+           throw new CustomValidationException("Le montant du paiement dépasse le montant restant dû (" + commande.getMontantRestant() + " DH)");
        }
        if(request.getTypePaiement() == TypePaiement.ESPECES && request.getMontant() > 20000){
-           throw new BusinessLogicException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
+           throw new CustomValidationException("Le paiement en espèces ne peut pas dépasser 20,000 DH (Loi Art. 193 CGI)");
        }
 
        Paiement paiement = paiementMapper.toEntity(request);
@@ -97,5 +101,7 @@ public class PaiementService {
         commande.setMontantRestant(montantRestant);
         commandeRepository.save(commande);
     }
+
+
 
 }
