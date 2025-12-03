@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.smartshop.presontation.controller.AuthController.USER_ID_KEY;
 import static com.smartshop.presontation.controller.AuthController.USER_ROLE_KEY;
 
 @RestController
@@ -43,8 +44,10 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
      @GetMapping("/{id}")
-    public ResponseEntity<?> getClientById(@PathVariable Long id){
-         Optional<ClientResponse> clients = clientService.getClientById(id);
+    public ResponseEntity<?> getClientById(@PathVariable Long id ,HttpSession session){
+         Long currentUserId = (Long) session.getAttribute(USER_ID_KEY);
+         String currentUserRole = session.getAttribute(USER_ROLE_KEY).toString();
+         Optional<ClientResponse> clients = clientService.getClientById(id, currentUserId, currentUserRole);
         return ResponseEntity.ok(clients);
     }
 
