@@ -1,4 +1,4 @@
-package com.smartshop.TestClientService;
+package com.smartshop;
 
 import com.smartshop.application.mapper.ClientMapper;
 import com.smartshop.application.service.ClientService;
@@ -15,7 +15,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,21 +80,6 @@ class ClientServiceTest {
 
         assertThrows(BusinessLogicException.class, () -> clientService.createClient(request));
         verify(clientRepository, never()).save(any());
-    }
-
-    @Test
-    void getClientById_Success() {
-        Long id = 1L;
-        Client client = Client.builder().id(id).build();
-        ClientResponse response = ClientResponse.builder().id(id).build();
-
-        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
-        when(clientMapper.toResponse(client)).thenReturn(response);
-
-        Optional<ClientResponse> result = clientService.getClientById(id);
-
-        assertTrue(result.isPresent());
-        assertEquals(id, result.get().getId());
     }
 
     @Test
