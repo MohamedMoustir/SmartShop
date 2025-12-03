@@ -14,10 +14,13 @@ public interface OrderItemMapper {
     @Mapping(target = "commande", ignore = true)
     @Mapping(target = "prixUnitaireLigne", ignore = true)
     @Mapping(target = "totalLigne", ignore = true)
+    @Mapping(target = "createAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     OrderItem toEntity(OrderItemRequest request);
 
     @Mapping(source = "product.id", target = "productId")
     @Mapping(source = "product.nom", target = "productName")
     @Mapping(source = "prixUnitaireLigne", target = "prixUnitaire")
+
     OrderItemResponse toResponse(OrderItem entity);
 }

@@ -14,8 +14,11 @@ public interface CommandeMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "date", ignore = true)
     @Mapping(target = "statut", ignore = true)
+    @Mapping(target = "createAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Commande toEntity(CommandeRequest request);
 
+    @Mapping(source = "client.id", target = "clientId")
     @Mapping(source = "date", target = "dateCommande")
     @Mapping(source = "codePromo", target = "codePromoUtilise")
     @Mapping(source = "orderItems", target = "items")

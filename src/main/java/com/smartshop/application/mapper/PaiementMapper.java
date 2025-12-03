@@ -15,9 +15,12 @@ public interface PaiementMapper {
     @Mapping(target = "datePaiement", ignore = true)
     @Mapping(target = "dateEncaissement", ignore = true)
     @Mapping(target = "status", ignore = true)
+    @Mapping(target = "createAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     Paiement toEntity(PaiementRequest request);
 
     @Mapping(source = "commande.id", target = "commandeId")
     @Mapping(source = "commande.montantRestant", target = "montantRestant")
+
     PaiementResponse toResponse(Paiement paiement);
 }

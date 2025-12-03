@@ -14,8 +14,6 @@ public interface ClientMapper {
     @Mapping(target = "totalOrders", ignore = true)
     @Mapping(target = "totalSpent", ignore = true)
     @Mapping(target = "fidelityLevel", ignore = true)
-    @Mapping(target = "firstOrderAt", ignore = true)
-    @Mapping(target = "lastOrderAt", ignore = true)
     Client  toEntity(ClientRequest clientRequest);
 
     ClientResponse toResponse(Client client);
