@@ -68,8 +68,11 @@ public class CommandeController {
         if (session.getAttribute(USER_ID_KEY) == null) {
             return ResponseEntity.status(401).body(Map.of("message", "Non authentifié."));
         }
-        CommandeResponse response = commandeService.getMyOrderById(id,(Long) session.getAttribute(USER_ID_KEY));
+        Long userId = (Long) session.getAttribute(USER_ID_KEY);
+        CommandeResponse response = commandeService.getMyOrderById(id,userId);
         return ResponseEntity.ok(response);
     }
+
+
 
 }

@@ -1,10 +1,7 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.CommandeMapper;
-import com.smartshop.domain.Exception.BusinessLogicException;
-import com.smartshop.domain.Exception.InvalidCredentialsException;
-import com.smartshop.domain.Exception.InvalidOrderStateException;
-import com.smartshop.domain.Exception.ResourceNotFoundException;
+import com.smartshop.domain.Exception.*;
 import com.smartshop.domain.enums.OrderStatus;
 import com.smartshop.domain.model.Client;
 import com.smartshop.domain.model.Commande;
@@ -21,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -45,8 +40,8 @@ public class CommandeService {
 
             List<OrderItem> orderItems = validateAndPrepareItems(request.getItems());
             double sousTotalHT = calculateSousTotal(orderItems);
-        double totalRemise = calculateTotalRemise(client, sousTotalHT, request.getCodePromo());
-        Commande savedCommande = buildAndSaveCommande(client, orderItems, sousTotalHT, totalRemise, request.getCodePromo());
+            double totalRemise = calculateTotalRemise(client, sousTotalHT, request.getCodePromo());
+            Commande savedCommande = buildAndSaveCommande(client, orderItems, sousTotalHT, totalRemise, request.getCodePromo());
         return commandeMapper.toResponse(savedCommande);
     }
 
@@ -71,12 +66,14 @@ public class CommandeService {
 
         return items;
     }
+
     private double calculateSousTotal(List<OrderItem> items){
         return items.stream()
                 .mapToDouble(item->item.getPrixUnitaireLigne() * item.getQuantity())
                 .sum();
 
     }
+
     private double calculateTotalRemise(Client client, double sousTotal, String codePromo){
        double  discountFidelity = fidelityService.calculateDiscount(client ,sousTotal);
         double discountPromo = 0.0;
@@ -139,7 +136,7 @@ public class CommandeService {
         return commandeMapper.toResponse(commandeRepository.save(commande));
     }
 
-   public List<CommandeResponse> getAllOrder(){
+    public List<CommandeResponse> getAllOrder(){
         return  commandeRepository.findAll().stream()
                 .map(commandeMapper::toResponse)
                 .collect(Collectors.toList());
@@ -163,7 +160,9 @@ public class CommandeService {
 
     public CommandeResponse getMyOrderById(Long id ,Long clientId){
          Commande commande = commandeRepository.findByIdAndClient_Id(id,clientId)
-                 .orElseThrow(() -> new ResourceNotFoundException("Commande not found"));;
+                 .orElseThrow(() -> new ForbiddenException("You do not have permission to access this order"));
            return commandeMapper.toResponse(commande);
     }
+
+
 }
