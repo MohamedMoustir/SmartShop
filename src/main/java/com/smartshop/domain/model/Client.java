@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Client extends User{
+public class Client extends User {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -27,7 +27,5 @@ public class Client extends User{
     @Builder.Default
     private Integer totalOrders = 0;
 
-    private LocalDateTime firstOrderAt;
-    private LocalDateTime lastOrderAt;
 
 }

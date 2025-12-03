@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "paiements")
@@ -16,7 +17,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Paiement {
+public class Paiement extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +43,7 @@ public class Paiement {
     private String reference;
     private String banque;
     private LocalDate dateEcheance;
+
+    private LocalDateTime createAt;
+    private LocalDateTime updatedAt;
 }

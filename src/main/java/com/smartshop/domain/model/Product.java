@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "products")
 @Data
@@ -14,7 +16,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause="deleted=false")
-public class Product {
+public class Product  extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,4 +32,7 @@ public class Product {
 
     @Column(nullable = false)
     private boolean deleted = false;
+
+    private LocalDateTime createAt;
+    private LocalDateTime updatedAt;
 }

@@ -3,13 +3,15 @@ package com.smartshop.domain.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "orderItems")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
+public class OrderItem extends AbstractEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,4 +29,7 @@ public class OrderItem {
     private Integer quantity;
     private Double prixUnitaireLigne;
     private Double totalLigne;
+
+    private LocalDateTime createAt;
+    private LocalDateTime updatedAt;
 }

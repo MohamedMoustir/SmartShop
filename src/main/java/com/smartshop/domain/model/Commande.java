@@ -18,7 +18,7 @@
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class Commande {
+    public class Commande extends AbstractEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
@@ -28,6 +28,7 @@
 
         private LocalDateTime date;
 
+        //Composition
         @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
         private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -40,4 +41,7 @@
         private String codePromo;
         @Enumerated(EnumType.STRING)
         private OrderStatus statut;
+
+        private LocalDateTime createAt;
+        private LocalDateTime updatedAt;
     }
