@@ -1,6 +1,7 @@
 package com.smartshop.application.service;
 
 import com.smartshop.domain.Exception.InvalidCredentialsException;
+import com.smartshop.domain.Exception.UnauthorizedException;
 import com.smartshop.domain.model.User;
 import com.smartshop.infrastructure.Repository.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
@@ -16,10 +17,10 @@ public class AuthService {
 
     public User authenticate(String email , String password){
       User user = userRepository.findByEmail(email)
-              .orElseThrow(()->new InvalidCredentialsException("email d'utilisateur ou mot de passe incorrect."));
+              .orElseThrow(()->new UnauthorizedException("email d'utilisateur ou mot de passe incorrect."));
            boolean passwordMatches = BCrypt.checkpw(password,user.getPassword());
        if(!passwordMatches){
-           throw new InvalidCredentialsException("email d'utilisateur ou mot de passe incorrect.");
+           throw new UnauthorizedException("email d'utilisateur ou mot de passe incorrect.");
        }
         return user;
     }
