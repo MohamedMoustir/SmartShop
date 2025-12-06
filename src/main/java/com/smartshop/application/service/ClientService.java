@@ -4,7 +4,6 @@ import com.smartshop.application.mapper.ClientMapper;
 import com.smartshop.domain.Exception.BusinessLogicException;
 import com.smartshop.domain.Exception.ForbiddenException;
 import com.smartshop.domain.Exception.ResourceNotFoundException;
-import com.smartshop.domain.Exception.UnauthorizedException;
 import com.smartshop.domain.enums.UserRole;
 import com.smartshop.domain.model.Client;
 import com.smartshop.infrastructure.Repository.ClientRepository;
@@ -23,12 +22,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientService {
 
-    private final ClientRepository  clientRepository ;
-    private final UserRepository userRepository ;
+    private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
     private final ClientMapper clientMapper;
 
 
-    public ClientResponse createClient(ClientRequest request){
+    public ClientResponse createClient(ClientRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new BusinessLogicException("Email already used");
         }
@@ -38,19 +37,19 @@ public class ClientService {
         String salt = BCrypt.gensalt();
         String hashedPassword = BCrypt.hashpw(request.getPassword(), salt);
         clientEntity.setPassword(hashedPassword);
-        Client savedClient  = clientRepository.save(clientEntity);
+        Client savedClient = clientRepository.save(clientEntity);
 
         return clientMapper.toResponse(savedClient);
 
     }
 
-    public List<ClientResponse> getAllClient(){
+    public List<ClientResponse> getAllClient() {
         return clientRepository.findAll().stream()
                 .map(clientMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public Optional<ClientResponse> getClientById(Long id,Long requesterId, String requesterRole){
+    public Optional<ClientResponse> getClientById(Long id, Long requesterId, String requesterRole) {
         if ("CLIENT".equals(requesterRole) && !id.equals(requesterId)) {
             throw new ForbiddenException("Accès refusé. Vous ne pouvez consulter que votre propre profil.");
         }
@@ -59,12 +58,12 @@ public class ClientService {
 
         return Optional.ofNullable(clientMapper.toResponse(client));
     }
-    
-    public ClientResponse updateClient(Long id, ClientRequest request){
-       Client client =  clientRepository.findById(id)
-               .orElseThrow(()->  new ResourceNotFoundException("Client not found"));
 
-        if(request.getNom() != null) client.setNom(request.getNom());
+    public ClientResponse updateClient(Long id, ClientRequest request) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+
+        if (request.getNom() != null) client.setNom(request.getNom());
         if (request.getEmail() != null) client.setEmail(request.getEmail());
         if (request.getRole() != null) {
             try {
@@ -79,9 +78,9 @@ public class ClientService {
         return clientMapper.toResponse(savedClient);
     }
 
-   public ClientResponse updateRole(Long id){
-       Client client =  clientRepository.findById(id).orElseThrow(()->  new ResourceNotFoundException("Client not found"));
-       client.setRole(UserRole.ADMIN);
+    public ClientResponse updateRole(Long id) {
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+        client.setRole(UserRole.ADMIN);
         Client savedClient = clientRepository.save(client);
         return clientMapper.toResponse(savedClient);
     }
@@ -93,11 +92,11 @@ public class ClientService {
     }
 
 
-
     public ClientResponse getCurrentProfile(Long userId) {
         Client client = clientRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Profil client introuvable pour l'ID : " + userId));
 
         return clientMapper.toResponse(client);
     }
+
 }

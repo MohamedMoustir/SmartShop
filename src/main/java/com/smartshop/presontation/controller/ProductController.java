@@ -4,6 +4,7 @@ import com.smartshop.application.service.ProductServise;
 import com.smartshop.domain.enums.OrderStatus;
 import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.OrderItem;
+import com.smartshop.domain.model.Product;
 import com.smartshop.infrastructure.Repository.ProductRepository;
 import com.smartshop.presontation.dto.Request.ProductRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
@@ -61,7 +62,6 @@ public class ProductController {
         productServise.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
 
 
 }

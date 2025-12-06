@@ -8,6 +8,7 @@ import com.smartshop.domain.enums.PaymentStatus;
 import com.smartshop.domain.enums.TypePaiement;
 import com.smartshop.domain.model.Commande;
 import com.smartshop.domain.model.Paiement;
+import com.smartshop.domain.model.Product;
 import com.smartshop.infrastructure.Repository.CommandeRepository;
 import com.smartshop.infrastructure.Repository.PaiementRepository;
 import com.smartshop.presontation.dto.Request.PaiementRequest;
@@ -15,11 +16,9 @@ import com.smartshop.presontation.dto.Response.PaiementResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -101,6 +100,10 @@ public class PaiementService {
         commande.setMontantRestant(montantRestant);
         commandeRepository.save(commande);
     }
+
+
+
+
 
 
 

@@ -1,15 +1,11 @@
 package com.smartshop.application.service;
 
 import com.smartshop.application.mapper.CommandeMapper;
+import com.smartshop.application.mapper.ProductMapper;
 import com.smartshop.domain.Exception.*;
 import com.smartshop.domain.enums.OrderStatus;
-import com.smartshop.domain.model.Client;
-import com.smartshop.domain.model.Commande;
-import com.smartshop.domain.model.OrderItem;
-import com.smartshop.domain.model.Product;
-import com.smartshop.infrastructure.Repository.ClientRepository;
-import com.smartshop.infrastructure.Repository.CommandeRepository;
-import com.smartshop.infrastructure.Repository.ProductRepository;
+import com.smartshop.domain.model.*;
+import com.smartshop.infrastructure.Repository.*;
 import com.smartshop.presontation.dto.Request.CommandeRequest;
 import com.smartshop.presontation.dto.Request.OrderItemRequest;
 import com.smartshop.presontation.dto.Response.CommandeResponse;
@@ -31,6 +27,7 @@ public class CommandeService {
     private final ClientRepository clientRepository;
     private final FidelityService fidelityService;
     private final CommandeMapper commandeMapper;
+    private final OrderItemRepository orderItemRepository;
     private final String  CODEPROMO = "PROMO-2025";
 
     @Transactional
@@ -163,6 +160,10 @@ public class CommandeService {
                  .orElseThrow(() -> new ForbiddenException("You do not have permission to access this order"));
            return commandeMapper.toResponse(commande);
     }
+
+
+
+
 
 
 }

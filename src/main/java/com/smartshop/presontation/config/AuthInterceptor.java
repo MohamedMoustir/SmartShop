@@ -24,6 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         HttpSession session = request.getSession(false);
+
         if (session == null || session.getAttribute(USER_ID_KEY) == null) {
             throw new UnauthorizedException("Session expirée ou non authentifié. Veuillez vous connecter.");
         }
@@ -48,7 +49,6 @@ public class AuthInterceptor implements HandlerInterceptor {
                 }
                 if (requestPath.startsWith("/api/commandes")) {
                     boolean isMyOrdersEndpoint = requestPath.contains("/my_orders");
-
                     if ("GET".equalsIgnoreCase(request.getMethod()) && isMyOrdersEndpoint) {
                         return true;
                     }
