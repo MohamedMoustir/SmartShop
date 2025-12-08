@@ -13,12 +13,12 @@
     import java.util.List;
 
     @Entity
-    @Table(name = "commands")
+    @Table(name = "Order")
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class Commande extends AbstractEntity {
+    public class Order extends AbstractEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
